@@ -1,0 +1,261 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #1f1f29;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* HEADER */
+header {
+  background-color: #121218;
+  padding: 20px;
+  text-align: center;
+}
+
+.header-superior {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.logo {
+  width: 100px;
+  margin-left: 20px;
+}
+
+.btn-volver {
+  background-color: transparent;
+  border: 2px solid #f5f5a5;
+  color: #f5f5a5;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  margin-right: 20px;
+  transition: 0.3s ease;
+}
+
+.btn-volver:hover {
+  background-color: #f5f5a5;
+  color: #000;
+}
+
+header h1 {
+  font-size: 28px;
+  color: lightyellow;
+  margin-top: 10px;
+}
+
+/* MAIN */
+main {
+  flex: 1;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+/* FORMULARIO */
+.formulario-contenedor {
+  background-color: #1b1b27;
+  padding: 30px;
+  border-radius: 14px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
+}
+
+.formulario-contenedor h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.form-proveedor label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+.form-proveedor input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  background-color: #2b2b3d;
+  color: #ffffff;
+  border: 1px solid #555;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border 0.3s ease;
+}
+
+.form-proveedor input:focus {
+  border: 1px solid lightyellow;
+  outline: none;
+}
+
+.form-proveedor button {
+  width: 100%;
+  background-color: #fff;
+  color: #000;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-proveedor button:hover {
+  background-color: lightyellow;
+}
+
+/* LISTADO */
+.listado {
+  background-color: #1b1b27;
+  padding: 25px;
+  border-radius: 12px;
+  max-width: 1000px;
+  width: 100%;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
+  text-align: center;
+}
+
+.listado h2 {
+  font-size: 22px;
+  margin-bottom: 18px;
+  color: #ffffff;
+}
+
+.tabla-proveedores table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #fff;
+  margin-top: 10px;
+}
+
+.tabla-proveedores th,
+.tabla-proveedores td {
+  border: 1px solid #444;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.tabla-proveedores th {
+  background-color: #2b2b3d;
+  color: lightyellow;
+}
+
+.tabla-proveedores img {
+  width: 50px;
+  height: auto;
+  border-radius: 6px;
+}
+
+/* Si no hay proveedores */
+.proveedores-vacio p {
+  color: #ccc;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+/* FOOTER */
+footer {
+  background-color: #0a0a0a;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+}
+
+/* BOTÓN DE ESTADO */
+.estado-activo,
+.estado-inactivo {
+  padding: 6px 12px;
+  font-size: 13px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.estado-activo {
+  background-color: #198754;
+  color: white;
+}
+
+.estado-inactivo {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* TABLA DE PROVEEDORES */
+.tabla-proveedores table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  color: white;
+}
+
+.tabla-proveedores th,
+.tabla-proveedores td {
+  padding: 10px;
+  border: 1px solid #444;
+  text-align: center;
+}
+
+.tabla-proveedores th {
+  background-color: #2b2b3d;
+  color: lightyellow;
+}
+
+/* BOTONES */
+.estado-activo,
+.estado-inactivo {
+  padding: 6px 12px;
+  font-size: 13px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.estado-activo {
+  background-color: #198754;
+  color: white;
+}
+
+.estado-inactivo {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-editar {
+  background-color: #ffc107;
+  color: black;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.3s;
+}
+
+.btn-editar:hover {
+  background-color: #e0a800;
+  color: #000;
+}
+

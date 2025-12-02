@@ -1,0 +1,164 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f0fbf9;
+  color: white;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* VIDEO DE FONDO */
+.video-fondo {
+  position: fixed;
+}
+/* HEADER */
+header {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  padding: 30px;
+  text-align: center;
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+header h1 {
+  font-size: 28px;
+  color: lightyellow;
+}
+
+header p {
+  color: #ddd;
+}
+
+.cerrar-sesion {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  background-color: #fff5b0;
+  color: #000;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  z-index: 10;
+}
+
+.cerrar-sesion:hover {
+  background-color: #f4e27a;
+}
+
+/* MAIN */
+main {
+  flex: 1;
+  padding: 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.bienvenida-texto h2 {
+  color: lightyellow;
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.bienvenida-texto p {
+  color: white;
+  font-size: 18px;
+}
+
+
+ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+}
+
+ul li a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  height: 220px;
+  padding: 20px;
+  text-decoration: none;
+  color: lightyellow;
+  border: 2px solid rgba(49, 49, 49, 0.2);
+  border-radius: 16px;
+  backdrop-filter: blur(23px);
+  box-shadow: 10px 20px 40px;
+  transition: all 0.3s ease;
+}
+
+ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #fff5b0;
+}
+
+.icono {
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+.titulo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.descripcion {
+  font-size: 14px;
+  color: #ddd;
+  margin-top: 5px;
+  text-align: center;
+}
+
+/* FOOTER */
+footer {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+  text-align: center;
+  padding: 15px;
+  backdrop-filter: blur(6px);
+  margin-top: auto;
+}
+
+
+.volver {
+  position: absolute;
+  top: 31px; 
+  left: 190px;
+ 
+}
+
+.volver a {
+  background-color: transparent;
+  color: #f5f5a5;
+  padding: 10px 18px;
+  text-decoration: none;
+  font-weight: bold;
+  border: 2px solid #f5f5a5;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  font-size: 15px;
+}
+
+.volver a:hover {
+  background-color: #f5f5a5;
+  color: #000;
+}

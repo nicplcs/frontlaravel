@@ -1,0 +1,130 @@
+* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  font-family: 'Outfit', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  color: #ffffff;
+}
+
+/* VIDEO DE FONDO */
+.video-fondo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -2;
+}
+
+/* CAPA OSCURA SOBRE EL VIDEO */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.65);
+  z-index: -1;
+}
+
+/* FORMULARIO */
+.login-container {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 40px 30px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+}
+
+.login-container h2 {
+  margin-bottom: 25px;
+  font-size: 24px;
+  color: #fff5b0;
+  font-weight: 800;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+label {
+  text-align: left;
+  font-weight: bold;
+  font-size: 14px;
+  color: #e0e0e0;
+}
+
+input,
+select {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: white;
+  transition: 0.3s;
+  outline: none;
+  backdrop-filter: blur(4px);
+}
+
+input:focus,
+select:focus {
+  border: 1px solid #fff5b0;
+}
+
+select option {
+  background-color: #1a1a1a;
+  color: white;
+}
+
+button {
+  padding: 12px;
+  background-color: #fff5b0;
+  color: #000;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #f4e27a;
+}
+
+.enlaces {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.enlaces a {
+  color: #d2d2ff;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.enlaces a:hover {
+  color: #ffffff;
+}
+ 

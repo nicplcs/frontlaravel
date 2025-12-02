@@ -1,0 +1,113 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9fefe;
+  color: #333;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+h1, h2 {
+  color: #342683;
+  margin-bottom: 20px;
+}
+
+.formulario-devolucion {
+  max-width: 600px;
+  margin: 0 auto 40px;
+  padding: 20px;
+  background-color: #edebff;
+  border: 2px solid #18113f;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  text-align: left;
+}
+
+.formulario-devolucion label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.formulario-devolucion input,
+.formulario-devolucion textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.formulario-devolucion button {
+  width: 100%;
+  background-color: #000000;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.formulario-devolucion button:hover {
+  background-color: #d97706;
+}
+
+table {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 40px;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+thead {
+  background-color: #18113f;
+  color: white;
+}
+
+thead th {
+  padding: 15px;
+  font-size: 16px;
+}
+
+tbody td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+  font-size: 15px;
+}
+
+tbody tr:hover {
+  background-color: #fff6e5;
+}
+
+.volver {
+  margin-top: 20px;
+}
+
+.volver a {
+  display: inline-block;
+  background-color: #000000;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.volver a:hover {
+  background-color: #717177;
+}

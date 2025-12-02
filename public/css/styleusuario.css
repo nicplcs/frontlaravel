@@ -1,0 +1,109 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9fefe;
+  color: #333;
+  padding-bottom: 80px;
+}
+
+header {
+  text-align: center;
+  padding: 20px 0;
+  background-color: #18113f;
+  color: white;
+}
+
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+main h2 {
+  margin-bottom: 20px;
+  color: #342683;
+}
+
+/* 🟣 FORMULARIO */
+.form-empleado {
+  max-width: 600px;
+  margin: 0 auto 40px;
+  padding: 20px;
+  background-color: #edebff;
+  border: 2px solid #18113f;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  text-align: left;
+}
+
+.form-empleado label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-empleado input,
+.form-empleado select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+/* ✅ BOTÓN */
+.form-empleado button {
+  width: 100%;
+  background-color: #000000;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-empleado button:hover {
+  background-color: #717177;
+}
+
+/* 🔙 ENLACE VOLVER */
+.volver {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.volver a {
+  display: inline-block;
+  background-color: #000000;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.volver a:hover {
+  background-color: #495057;
+}
+
+footer {
+  text-align: center;
+  padding: 20px 0;
+  background-color: #000000;
+  color: white;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
