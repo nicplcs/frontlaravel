@@ -58,7 +58,7 @@
 
     <ul class="opciones-modulo">
       <li>
-        <a href="../movimiento/registrar-devolucion.html">
+        <a href="/registrar-devolucion">
           <div class="icono"><i class="bi bi-arrow-counterclockwise"></i></div>
           <div class="titulo">Devoluciones</div>
           <div class="descripcion">Gestiona productos devueltos por errores o daños</div>
@@ -66,7 +66,7 @@
       </li>
 
       <li>
-        <a href="../Api/Movimientos/Vista/index.php">
+        <a href="/consultar-movimiento">
           <div class="icono"><i class="bi bi-list-columns-reverse"></i></div>
           <div class="titulo">Ver Movimientos</div>
           <div class="descripcion">Consulta entradas y salidas registradas</div>

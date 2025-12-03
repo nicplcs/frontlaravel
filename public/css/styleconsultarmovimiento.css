@@ -1,0 +1,148 @@
+/* ------------------------- */
+/*        CONFIG GLOBAL      */
+/* ------------------------- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f4f7fb;
+    color: #333;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* ------------------------- */
+/*        TITULO PRINCIPAL   */
+/* ------------------------- */
+.titulo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 25px;
+    padding-left: 5px;
+}
+
+.titulo .icon {
+    color: #ff6b6b;
+}
+
+/* ------------------------- */
+/*     MENSAJE DE ERROR      */
+/* ------------------------- */
+.alert-error {
+    background: #ffe3e3;
+    color: #b10e0e;
+    padding: 12px 15px;
+    border-left: 5px solid #ff4d4d;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* ------------------------- */
+/*          TABLA            */
+/* ------------------------- */
+.tabla-container {
+    overflow-x: auto;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* Encabezado */
+.tabla thead th {
+    background: linear-gradient(90deg, #ff6b6b, #ffa36c);
+    color: white;
+    padding: 14px;
+    font-size: 15px;
+    text-align: left;
+    letter-spacing: 0.5px;
+}
+
+.header-icon {
+    margin-right: 6px;
+}
+
+/* Cuerpo */
+.tabla tbody tr {
+    border-bottom: 1px solid #eee;
+    transition: background 0.2s ease;
+}
+
+.tabla tbody tr:hover {
+    background: #fff7f0;
+}
+
+.tabla td {
+    padding: 14px;
+    font-size: 14px;
+    color: #444;
+}
+
+.no-data {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+    font-style: italic;
+}
+
+/* ------------------------- */
+/*       BOTÓN VOLVER        */
+/* ------------------------- */
+.volver {
+    margin-top: 28px;
+}
+
+.btn-volver {
+    display: inline-block;
+    padding: 12px 18px;
+    text-decoration: none;
+    background: linear-gradient(90deg, #6c63ff, #8f6bff);
+    color: white;
+    font-weight: 600;
+    border-radius: 10px;
+    box-shadow: 0px 3px 10px rgba(108, 99, 255, 0.3);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-volver:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 6px 14px rgba(108, 99, 255, 0.4);
+}
+
+.btn-volver:active {
+    transform: scale(0.96);
+}
+
+.btn-delete {
+    background: #ff4d4d;
+    border: none;
+    color: white;
+    padding: 7px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn-delete:hover {
+    background: #ff1f1f;
+    transform: translateY(-2px);
+}
+
+.btn-delete:active {
+    transform: scale(0.95);
+}
