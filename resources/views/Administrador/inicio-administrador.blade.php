@@ -1,76 +1,55 @@
-<?php
-session_start();
-
-// Verificar si hay sesión activa
-if (!isset($_SESSION['token'])) {
-    header('Location: login.html');
-    exit();
-}
-
-// Verificar que sea administrador
-if (strtolower($_SESSION['rol']) != 'administrador') {
-    header('Location: login.html');
-    exit();
-}
-
-// Obtener datos del usuario
-$nombre = $_SESSION['nombre'];
-$rol = $_SESSION['rol'];
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Invex  - Dashboard</title>
+  <title>Invex - Dashboard</title>
 
-  <!-- TU CSS -->
-  <link rel="stylesheet" href="../css/styleiniciodesbloq.css">
 
-  <!-- Bootstrap CSS (versión corta oficial) -->
+  <link rel="stylesheet" href="{{ asset('css/styleiniciodesbloq.css') }}">
+
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Google Fonts -->
+
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-  <!-- VIDEO DE FONDO -->
+
   <video autoplay muted loop class="video-fondo">
-    <source src="../videosdefondo/city_2.mp4" type="video/mp4">
+    <source src="{{ asset('videos/city_2.mp4') }}" type="video/mp4">
     Tu navegador no soporta el video.
   </video>
 
-  <!-- CAPA OSCURA -->
+
   <div class="overlay"></div>
 
-  <!-- ENCABEZADO -->
+
   <header>
     <div class="header-logo">
-      <img src="../videosdefondo/logo.png" alt="Logo Invex">
+      <img src="{{ asset('videosdefondo/logo.png') }}" alt="Logo Invex">
     </div>
     <h1>Bienvenido a Invex</h1>
     <p>Sistema de información para automatización de productos</p>
 
-    <!-- ICONO DE MENÚ USUARIO -->
+
     <input type="checkbox" id="toggle-user-menu" class="toggle-user-menu">
     <label for="toggle-user-menu" class="user-icon">
-      <img src="imagenes/engranaje.webp" alt="Engranaje" width="20" height="20">
+      <img src="{{ asset('imagenes/engranaje.webp') }}" alt="Engranaje" width="20" height="20">
     </label>
 
-    <!-- MENÚ DESPLEGABLE -->
+
     <div class="user-menu">
-      <img src="../img_productos/usuario.png" alt="Usuario" class="user-avatar">
-      <p class="user-name"><?php echo $nombre; ?></p>
-      <p class="user-role">Rol: Administrador</p>
-      <a href="logout.php" class="logout-btn">Cerrar sesión</a>
+      <img src="{{ asset('img_productos/usuario.png') }}" alt="Usuario" class="user-avatar">
+      <p class="user-name">{{ session('nombre', 'Usuario') }}</p>
+      <p class="user-role">Rol: {{ session('rol', 'Administrador') }}</p>
+      <a href="{{ route('logout') }}" class="logout-btn">Cerrar sesión</a>
     </div>
   </header>
 
-  <!-- CONTENIDO PRINCIPAL -->
   <main>
     <div class="bienvenida-wrapper">
       <div class="bienvenida-texto">
@@ -81,7 +60,7 @@ $rol = $_SESSION['rol'];
 
     <ul>
       <li>
-        <a href="../movimiento/modulo-movimiento.html">
+        <a href="{{ route('modulo.movimiento') }}">
           <div class="icono">
             <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor"
               class="bi bi-folder2-open" viewBox="0 0 16 16">
@@ -95,7 +74,7 @@ $rol = $_SESSION['rol'];
       </li>
 
       <li>
-        <a href="../producto/gestion-producto.html">
+        <a href="{{ route('productos.gestion') }}">
           <div class="icono">
             <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-cart"
               viewBox="0 0 16 16">
@@ -108,9 +87,8 @@ $rol = $_SESSION['rol'];
         </a>
       </li>
 
-    
       <li>
-        <a href="../usuario/modulo-usuario.php">
+        <a href="{{ route('modulo.usuarios') }}">
           <div class="icono">
             <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor"
               class="bi bi-person-lines-fill" viewBox="0 0 16 16">

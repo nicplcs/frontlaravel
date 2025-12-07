@@ -11,7 +11,12 @@ class UsuariosController extends Controller
     public function index()
     {
         try {
-            $response = Http::timeout(10)->get('http://localhost:8080/usuarios');
+            // Agregar token si es necesario
+            $token = session('token');
+            
+            $response = Http::timeout(10)
+                ->withHeaders($token ? ['Authorization' => 'Bearer ' . $token] : [])
+                ->get('http://localhost:8080/usuarios');
             
             if ($response->successful()) {
                 $usuarios = $response->json();
@@ -44,23 +49,27 @@ class UsuariosController extends Controller
         ]);
 
         try {
-            $response = Http::asJson()->post('http://localhost:8080/usuarios', [
-                'nombre' => $request->nombre,
-                'correo' => $request->correo,
-                'contrasena' => $request->contrasena,
-                'estado' => $request->estado,
-                'telefono' => $request->telefono,
-                'fecha_nacimiento' => $request->fecha_nacimiento,
-                'rol' => $request->rol
-            ]);
+            $token = session('token');
+            
+            $response = Http::withHeaders($token ? ['Authorization' => 'Bearer ' . $token] : [])
+                ->asJson()
+                ->post('http://localhost:8080/usuarios', [
+                    'nombre' => $request->nombre,
+                    'correo' => $request->correo,
+                    'contrasena' => $request->contrasena,
+                    'estado' => $request->estado,
+                    'telefono' => $request->telefono,
+                    'fecha_nacimiento' => $request->fecha_nacimiento,
+                    'rol' => $request->rol
+                ]);
 
-            if ($response->successful() || $response->status() == 200) {
+            if ($response->successful() || $response->status() == 200 || $response->status() == 201) {
                 return redirect()->route('usuarios.gestion')
                     ->with('success', 'Usuario creado correctamente');
             }
 
             return redirect()->route('usuarios.gestion')
-                ->with('error', 'Error al crear usuario');
+                ->with('error', 'Error al crear usuario: ' . $response->body());
 
         } catch (\Exception $e) {
             return redirect()->route('usuarios.gestion')
@@ -83,6 +92,7 @@ class UsuariosController extends Controller
         ]);
 
         try {
+            $token = session('token');
             $id = $request->input('id');
             
             $datos = [
@@ -99,7 +109,9 @@ class UsuariosController extends Controller
                 $datos['contrasena'] = $request->contrasena;
             }
 
-            $response = Http::asJson()->put("http://localhost:8080/usuarios/{$id}", $datos);
+            $response = Http::withHeaders($token ? ['Authorization' => 'Bearer ' . $token] : [])
+                ->asJson()
+                ->put("http://localhost:8080/usuarios/{$id}", $datos);
 
             if ($response->successful() || $response->status() == 200) {
                 return redirect()->route('usuarios.gestion')
@@ -107,7 +119,7 @@ class UsuariosController extends Controller
             }
 
             return redirect()->route('usuarios.gestion')
-                ->with('error', 'Error al actualizar');
+                ->with('error', 'Error al actualizar: ' . $response->body());
 
         } catch (\Exception $e) {
             return redirect()->route('usuarios.gestion')
@@ -119,9 +131,11 @@ class UsuariosController extends Controller
     public function destroy(Request $request)
     {
         try {
+            $token = session('token');
             $id = $request->input('id');
             
-            $response = Http::delete("http://localhost:8080/usuarios/{$id}");
+            $response = Http::withHeaders($token ? ['Authorization' => 'Bearer ' . $token] : [])
+                ->delete("http://localhost:8080/usuarios/{$id}");
 
             if ($response->successful() || $response->status() == 200) {
                 return redirect()->route('usuarios.gestion')
@@ -129,7 +143,7 @@ class UsuariosController extends Controller
             }
 
             return redirect()->route('usuarios.gestion')
-                ->with('error', 'Error al eliminar');
+                ->with('error', 'Error al eliminar: ' . $response->body());
 
         } catch (\Exception $e) {
             return redirect()->route('usuarios.gestion')
