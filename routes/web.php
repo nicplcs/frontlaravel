@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MovimientosController;
 use App\Http\Controllers\DevolucionesController;
-use App\Http\Controllers\UsuariosController;
+use App\Http\Controllers\UsuariosController; 
+use App\Http\Controllers\ProveedoresController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\EntradaProductoController;
 use App\Http\Controllers\SalidaProductoController;
@@ -59,8 +60,8 @@ Route::post('/devoluciones/actualizar', [DevolucionesController::class, 'update'
 
 Route::post('/devoluciones/eliminar', [DevolucionesController::class, 'destroy'])
     ->name('devoluciones.destroy');
-
-
+    
+// MODULO USUARIOS
 Route::get('/modulo-usuarios', function () {
     return view('Modulo-usuarios.modulo-usuarios');
 })->name('modulo.usuarios');
@@ -77,6 +78,20 @@ Route::post('/usuarios/actualizar', [UsuariosController::class, 'update'])
 Route::post('/usuarios/eliminar', [UsuariosController::class, 'destroy'])
     ->name('usuarios.destroy');
 
+    // PROVEEDORES
+Route::get('/gestion-proveedores', [ProveedoresController::class, 'index'])
+    ->name('proveedores.gestion');
+
+Route::post('/proveedores/crear', [ProveedoresController::class, 'store'])
+    ->name('proveedores.store');
+
+Route::post('/proveedores/actualizar', [ProveedoresController::class, 'update'])
+    ->name('proveedores.update');
+
+Route::post('/proveedores/eliminar', [ProveedoresController::class, 'destroy'])
+    ->name('proveedores.destroy');
+
+// PRODUCTOS
 
 Route::get('/productos/gestion', function () {
     return view('productos.gestion');
