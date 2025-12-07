@@ -125,3 +125,8 @@ Route::get('/productos/registrar', [RegistrarProductoController::class, 'mostrar
 
 Route::post('/productos/registrar', [RegistrarProductoController::class, 'registrarProducto'])
     ->name('productos.registrar.guardar');
+
+
+Route::get('/interfaz-caleb', function () {
+    return view('Interfaz-caleb.interfaz');
+})->name('interfaz.caleb');
