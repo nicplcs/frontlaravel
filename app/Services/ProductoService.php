@@ -6,13 +6,13 @@ class ProductoService
 {
     private $apiUrl = "http://localhost:8080/productos";
 
-    // Obtener token de la sesión
+    
     private function obtenerToken()
     {
         return session('token', null);
     }
 
-    // GET - obtener todos los productos
+    // GET 
     public function obtenerProductos()
     {
         $token = $this->obtenerToken();
@@ -32,7 +32,7 @@ class ProductoService
         return json_decode($respuesta, true) ?? [];
     }
 
-    // POST - agregar producto
+    // POST 
     public function agregarProducto($producto)
     {
         $token = $this->obtenerToken();
@@ -66,7 +66,7 @@ class ProductoService
             : ["success" => false, "error" => "HTTP $http_code"];
     }
 
-    // PUT - actualizar producto
+    // PUT 
     public function actualizarProducto($id, $producto)
     {
         $token = $this->obtenerToken();
@@ -94,7 +94,7 @@ class ProductoService
             : ["success" => false, "error" => "HTTP $http_code"];
     }
 
-    // DELETE - eliminar producto
+    // DELETE 
     public function eliminarProducto($id)
     {
         $token = $this->obtenerToken();

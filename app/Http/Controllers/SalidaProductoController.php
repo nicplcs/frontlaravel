@@ -18,7 +18,7 @@ class SalidaProductoController extends Controller
     {
         $todosProductos = $this->productoService->obtenerProductos();
         
-        // Filtrar solo productos activos
+        
         $productosActivos = array_filter($todosProductos, function($p) {
             return $p['estado'] == '1';
         });
@@ -52,12 +52,12 @@ class SalidaProductoController extends Controller
             return redirect()->back()->with('error', 'Producto no encontrado.');
         }
 
-        // Verificar stock suficiente
+        
         if ($productoActual['stockActual'] < $cantidadRetirar) {
             return redirect()->back()->with('error', "Stock insuficiente. Stock actual: {$productoActual['stockActual']}, solicitado: {$cantidadRetirar}");
         }
 
-        // Actualizar stock
+        
         $productoActual['stock'] -= $cantidadRetirar;
         $productoActual['stockActual'] -= $cantidadRetirar;
 

@@ -17,14 +17,14 @@
     </header>
 
     <main>
-        <!-- Mensajes -->
+        
         @if(isset($mensaje) && $mensaje)
             <p style="color: {{ isset($tipo_mensaje) && $tipo_mensaje === 'success' ? 'green' : 'red' }};">
                 {{ $mensaje }}
             </p>
         @endif
 
-        <!-- Tabla de Productos -->
+        
         <h2>Inventario de Productos</h2>
         
         @if(is_array($productos) && count($productos) > 0)
@@ -77,7 +77,7 @@
             <p style="color:#999;">No hay productos en el inventario.</p>
         @endif
 
-        <!-- Modal para editar (oculto por defecto) -->
+  
         <div id="modalEditar" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center;">
             <div style="background-color: #1b1b27; padding: 30px; border-radius: 14px; max-width: 600px; width: 90%; border: 2px solid #444;">
                 <h2 style="margin-bottom: 20px;">Editar Producto</h2>
@@ -123,7 +123,7 @@
             </div>
         </div>
 
-        <!-- Formulario oculto para desactivar -->
+   
         <form id="formDesactivar" method="POST" action="{{ route('productos.desactivar') }}" style="display: none;">
             @csrf
             <input type="hidden" name="id" id="desactivar_id">
@@ -140,7 +140,7 @@
     </main>
 
     <footer>
-        <p>© 2025 Punto Éxito. Todos los derechos reservados.</p>
+        <p>© 2025 Invex. Todos los derechos reservados.</p>
     </footer>
 
     <script>

@@ -41,7 +41,7 @@
             </div>
         @endif
 
-        <!-- Formulario de Registro -->
+
         <h2>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 8px;">
                 <path d="M2 2a.5.5 0 0 0-.5.5V5a.5.5 0 0 0 .5.5h2.5a.5.5 0 0 0 .5-.5V2.5a.5.5 0 0 0-.5-.5zm0 7a.5.5 0 0 0-.5.5V12a.5.5 0 0 0 .5.5h2.5a.5.5 0 0 0 .5-.5V9.5a.5.5 0 0 0-.5-.5zm7-7a.5.5 0 0 0-.5.5V5a.5.5 0 0 0 .5.5H12a.5.5 0 0 0 .5-.5V2.5A.5.5 0 0 0 12 2zm0 7a.5.5 0 0 0-.5.5V12a.5.5 0 0 0 .5.5H12a.5.5 0 0 0 .5-.5V9.5A.5.5 0 0 0 12 9z"/>
@@ -83,7 +83,7 @@
             </button>
         </form>
 
-        <!-- Lista de Productos Registrados -->
+
         <h2>Productos Registrados</h2>
         @if(count($productos) > 0)
             <ul>

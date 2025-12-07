@@ -8,24 +8,34 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\EntradaProductoController;
 use App\Http\Controllers\SalidaProductoController;
 use App\Http\Controllers\RegistrarProductoController;
+use App\Http\Controllers\LoginController;
+
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 
 Route::get('/login', function () {
     return view('Login.login');
 })->name('login');
 
-Route::get('/inicio', function () {
-    return view('welcome'); 
-})->name('inicio');
+Route::post('/login', [LoginController::class, 'login'])->name('login.post');
+
+Route::get('/logout', function () {
+    session()->flush();
+    return redirect()->route('login')->with('success', 'Sesión cerrada correctamente');
+})->name('logout');
 
 
 Route::get('/inicio-administrador', function () {
     return view('Administrador.inicio-administrador');
 })->name('inicio.administrador');
+
+
+Route::get('/inicio-empleado', function () {
+    return view('Administrador.inicio-empleado');
+})->name('inicio.empleado');
 
 
 Route::get('/consultar-movimiento', [MovimientosController::class, 'consultarMovimientos'])
@@ -38,13 +48,8 @@ Route::get('/modulo-movimiento', function () {
 Route::post('/movimientos/eliminar', [MovimientosController::class, 'eliminar'])
     ->name('movimientos.eliminar');
 
-
-Route::get('/registrar-devolucion', function () {
-    return view('Modulo-movimientos.registrar-devolucion');
-})->name('registrar.devolucion');
-
-Route::get('/devoluciones-index', [DevolucionesController::class, 'index'])
-    ->name('devoluciones.index');
+Route::get('/registrar-devolucion', [DevolucionesController::class, 'index'])
+    ->name('registrar.devolucion');
 
 Route::post('/devoluciones/crear', [DevolucionesController::class, 'store'])
     ->name('devoluciones.store');
@@ -59,7 +64,6 @@ Route::post('/devoluciones/eliminar', [DevolucionesController::class, 'destroy']
 Route::get('/modulo-usuarios', function () {
     return view('Modulo-usuarios.modulo-usuarios');
 })->name('modulo.usuarios');
-
 
 Route::get('/gestion-usuarios', [UsuariosController::class, 'index'])
     ->name('usuarios.gestion');
@@ -86,7 +90,6 @@ Route::post('/productos/actualizar', [ProductoController::class, 'actualizar'])
 
 Route::post('/productos/desactivar', [ProductoController::class, 'desactivar'])
     ->name('productos.desactivar');
-
 
 Route::get('/productos/entrada', [EntradaProductoController::class, 'mostrarFormulario'])
     ->name('productos.entrada');
