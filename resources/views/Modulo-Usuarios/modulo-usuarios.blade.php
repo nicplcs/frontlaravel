@@ -54,7 +54,7 @@
         </li>
 
         <li>
-          <a href="#">
+          <a href="{{ route('proveedores.gestion') }}">
             <div class="icono">
               <i class="bi bi-truck"></i>
             </div>
