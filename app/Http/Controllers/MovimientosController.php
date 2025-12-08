@@ -38,13 +38,16 @@ class MovimientosController extends Controller
 
     public function eliminar(Request $request)
     {
+
         $id = $request->input('id');
 
         try {
             $token = session('token');
             
             $response = Http::withHeaders($token ? ['Authorization' => 'Bearer ' . $token] : [])
-                ->delete("http://localhost:8080/movimientos/{$id}");
+                ->delete("http://localhost:8080/eliminarMovimiento", [
+                    'id_movimiento' => $id
+                ]);
 
             if ($response->successful() || $response->status() == 200) {
                 return back()->with('success', 'Movimiento eliminado correctamente');

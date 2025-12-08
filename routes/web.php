@@ -16,7 +16,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-
+    //Login
 Route::get('/login', function () {
     return view('Login.login');
 })->name('login');
@@ -38,7 +38,7 @@ Route::get('/inicio-empleado', function () {
     return view('Administrador.inicio-empleado');
 })->name('inicio.empleado');
 
-
+    // Movimientos
 Route::get('/consultar-movimiento', [MovimientosController::class, 'consultarMovimientos'])
     ->name('consultar.movimiento');
 
@@ -48,6 +48,8 @@ Route::get('/modulo-movimiento', function () {
 
 Route::post('/movimientos/eliminar', [MovimientosController::class, 'eliminar'])
     ->name('movimientos.eliminar');
+
+    // Devoluciones
 
 Route::get('/registrar-devolucion', [DevolucionesController::class, 'index'])
     ->name('registrar.devolucion');

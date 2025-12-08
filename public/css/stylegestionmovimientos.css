@@ -1,4 +1,6 @@
-/* RESET */
+/* ------------------------- */
+/*      RESET Y GLOBAL       */
+/* ------------------------- */
 * {
   margin: 0;
   padding: 0;
@@ -6,159 +8,285 @@
 }
 
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.5)), 
+              linear-gradient(135deg, #667eea 0%, #764ba2 50%, #4e54c8 100%);
+  background-size: cover;
+  background-attachment: fixed;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: #f0fbf9;
+  padding: 20px;
   color: white;
-  position: relative;
-  overflow-x: hidden;
 }
 
-/* VIDEO DE FONDO */
-.video-fondo {
-  position: fixed;
-}
-/* HEADER */
-header {
-  background-color: rgba(0, 0, 0, 0.4);
-  color: white;
-  padding: 30px;
-  text-align: center;
-  backdrop-filter: blur(6px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-header h1 {
-  font-size: 28px;
-  color: lightyellow;
-}
-
-header p {
-  color: #ddd;
-}
-
-.cerrar-sesion {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  background-color: #fff5b0;
-  color: #000;
-  padding: 10px 18px;
-  border-radius: 10px;
-  font-weight: bold;
-  text-decoration: none;
-  transition: background-color 0.3s;
-  z-index: 10;
-}
-
-.cerrar-sesion:hover {
-  background-color: #f4e27a;
-}
-
-/* MAIN */
-main {
-  flex: 1;
-  padding: 40px;
-  text-align: center;
+/* ------------------------- */
+/*      HEADER NAVEGACIÓN    */
+/* ------------------------- */
+.header-nav {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 30px;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  padding: 0 10px;
 }
 
-.bienvenida-texto h2 {
-  color: lightyellow;
-  font-size: 32px;
+.role-badge {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.back-button {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+/* ------------------------- */
+/*      CONTENEDOR PRINCIPAL */
+/* ------------------------- */
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ------------------------- */
+/*         TÍTULO            */
+/* ------------------------- */
+.page-title {
+  text-align: center;
+  color: white;
+  margin-bottom: 40px;
+}
+
+.page-title h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
   margin-bottom: 10px;
 }
 
-.bienvenida-texto p {
-  color: white;
-  font-size: 18px;
+.page-title p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
 }
 
-
-ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 40px;
+/* ------------------------- */
+/*      SECCIÓN BIENVENIDA   */
+/* ------------------------- */
+.welcome-section {
+  text-align: center;
+  margin-bottom: 50px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-ul li a {
+.welcome-section h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+.welcome-section p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
+
+/* ------------------------- */
+/*      GRID DE OPCIONES     */
+/* ------------------------- */
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+/* ------------------------- */
+/*      CARDS DE OPCIONES    */
+/* ------------------------- */
+.option-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 250px;
-  height: 220px;
-  padding: 20px;
   text-decoration: none;
-  color: lightyellow;
-  border: 2px solid rgba(49, 49, 49, 0.2);
-  border-radius: 16px;
-  backdrop-filter: blur(23px);
-  box-shadow: 10px 20px 40px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 40px 30px;
+  min-height: 300px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
-}
-
-ul li a:hover {
-  background-color: rgba(255, 255, 255, 0.15);
-  color: #fff5b0;
-}
-
-.icono {
-  font-size: 48px;
-  margin-bottom: 15px;
-}
-
-.titulo {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.descripcion {
-  font-size: 14px;
-  color: #ddd;
-  margin-top: 5px;
-  text-align: center;
-}
-
-/* FOOTER */
-footer {
-  background-color: rgba(0, 0, 0, 0.3);
   color: white;
-  text-align: center;
-  padding: 15px;
-  backdrop-filter: blur(6px);
-  margin-top: auto;
 }
 
-
-.volver {
-  position: absolute;
-  top: 31px; 
-  left: 190px;
- 
+.option-card:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-10px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
 }
 
-.volver a {
-  background-color: transparent;
-  color: #f5f5a5;
-  padding: 10px 18px;
-  text-decoration: none;
-  font-weight: bold;
-  border: 2px solid #f5f5a5;
-  border-radius: 10px;
+/* Icono circular */
+.card-icon {
+  margin-bottom: 25px;
+}
+
+.icon-circle {
+  width: 120px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.3s ease;
-  font-size: 15px;
 }
 
-.volver a:hover {
-  background-color: #f5f5a5;
-  color: #000;
+.option-card:hover .icon-circle {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.emoji {
+  font-size: 4rem;
+}
+
+/* Contenido de la card */
+.card-content {
+  text-align: center;
+}
+
+.card-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
+
+.card-description {
+  font-size: 1rem;
+  opacity: 0.9;
+  line-height: 1.6;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+/* ------------------------- */
+/*         FOOTER            */
+/* ------------------------- */
+footer {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+  padding: 20px;
+  margin-top: 60px;
+  color: rgba(255, 255, 255, 0.8);
+  border-radius: 20px 20px 0 0;
+}
+
+footer p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* ------------------------- */
+/*       ANIMACIONES         */
+/* ------------------------- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-title {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.welcome-section {
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+.option-card:nth-child(1) {
+  animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+.option-card:nth-child(2) {
+  animation: fadeInUp 0.6s ease-out 0.6s both;
+}
+
+/* ------------------------- */
+/*       RESPONSIVE          */
+/* ------------------------- */
+@media (max-width: 992px) {
+  .options-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-title h1 {
+    font-size: 2rem;
+  }
+
+  .welcome-section h2 {
+    font-size: 1.8rem;
+  }
+
+  .welcome-section {
+    padding: 20px;
+  }
+
+  .option-card {
+    padding: 30px 20px;
+    min-height: 250px;
+  }
+
+  .icon-circle {
+    width: 100px;
+    height: 100px;
+  }
+
+  .emoji {
+    font-size: 3rem;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+  }
+
+  .card-description {
+    font-size: 0.9rem;
+  }
 }

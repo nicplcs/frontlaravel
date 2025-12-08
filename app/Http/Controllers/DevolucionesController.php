@@ -11,13 +11,7 @@ class DevolucionesController extends Controller
     {
         try {
             $response = Http::timeout(10)->get('http://localhost:8080/devoluciones');
-            
-            if ($response->successful()) {
-                $devoluciones = $response->json();
-            } else {
-                $devoluciones = [];
-            }
-            
+            $devoluciones = $response->successful() ? $response->json() : [];
         } catch (\Exception $e) {
             $devoluciones = [];
             $error = "Error al conectar con la API: " . $e->getMessage();
@@ -48,16 +42,13 @@ class DevolucionesController extends Controller
                 'idProducto' => (int)$request->idProducto
             ]);
 
-            if ($response->successful() || $response->status() == 200) {
-                return redirect()->route('devoluciones.index')
-                    ->with('success', 'Devolución registrada correctamente');
-            }
+            return redirect()->route('registrar.devolucion')
+                ->with($response->successful() ? 'success' : 'error', 
+                    $response->successful() ? 'Devolución registrada correctamente' : 'Error al registrar');
 
-            return redirect()->route('devoluciones.index')
-                ->with('error', 'Error al registrar la devolución');
 
         } catch (\Exception $e) {
-            return redirect()->route('devoluciones.index')
+            return redirect()->route('registrar.devolucion')
                 ->with('error', 'Error: ' . $e->getMessage());
         }
     }
@@ -75,7 +66,7 @@ class DevolucionesController extends Controller
 
         try {
             $id = $request->input('id');
-            
+
             $response = Http::asJson()->put("http://localhost:8080/devoluciones/{$id}", [
                 'cantidad' => (int)$request->cantidad,
                 'motivo' => $request->motivo,
@@ -84,16 +75,13 @@ class DevolucionesController extends Controller
                 'idProducto' => (int)$request->idProducto
             ]);
 
-            if ($response->successful() || $response->status() == 200) {
-                return redirect()->route('devoluciones.index')
-                    ->with('success', 'Devolución actualizada correctamente');
-            }
+            return redirect()->route('registrar.devolucion')
+                ->with($response->successful() ? 'success' : 'error',
+                    $response->successful() ? 'Devolución actualizada correctamente' : 'Error al actualizar');
 
-            return redirect()->route('devoluciones.index')
-                ->with('error', 'Error al actualizar');
 
         } catch (\Exception $e) {
-            return redirect()->route('devoluciones.index')
+            return redirect()->route('registrar.devolucion')
                 ->with('error', 'Error: ' . $e->getMessage());
         }
     }
@@ -102,19 +90,15 @@ class DevolucionesController extends Controller
     {
         try {
             $id = $request->input('id');
-            
             $response = Http::delete("http://localhost:8080/devoluciones/{$id}");
 
-            if ($response->successful() || $response->status() == 200) {
-                return redirect()->route('devoluciones.index')
-                    ->with('success', 'Devolución eliminada correctamente');
-            }
+            return redirect()->route('registrar.devolucion')
+                ->with($response->successful() ? 'success' : 'error',
+                    $response->successful() ? 'Devolución eliminada correctamente' : 'Error al eliminar');
 
-            return redirect()->route('devoluciones.index')
-                ->with('error', 'Error al eliminar');
 
         } catch (\Exception $e) {
-            return redirect()->route('devoluciones.index')
+            return redirect()->route('registrar.devolucion')
                 ->with('error', 'Error: ' . $e->getMessage());
         }
     }

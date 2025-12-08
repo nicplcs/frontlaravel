@@ -3,89 +3,70 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Invex - Gestión de Movimientos</title><img src="../imagenes/camion.png" alt="Gestión Movimientos" width="20" height="20"> 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../css/stylegestionmovimientos.css">
+  <title>Invex - Gestión de Movimientos</title>
+  <link rel="stylesheet" href="{{ asset('css/stylegestionmovimientos.css') }}">
 </head>
 <body>
 
-  <!-- VIDEO DE FONDO -->
-  <video class="video-fondo" autoplay loop muted>
-    <source src="{{ asset('videos/proovedores.mp4') }}" type="video/mp4">
-    Tu navegador no soporta el video.
-  </video>
+  <div class="header-nav">
+    <a href="{{ url('/inicio') }}" class="back-button">
+      ← Volver
+    </a>
+    <div class="role-badge">Administrador</div>
+  </div>
 
-  <!-- HEADER -->
-  <header class="d-flex justify-content-between align-items-center px-4 py-3">
-    <div class="rol-texto text-light">Rol: Administrador</div>
+  <div class="main-container">
 
-    <div class="text-center text-light">
-      <h1 class="mb-0">Gestión de Movimientos</h1>
-      <p class="mb-0">Sistema de información para automatización de productos</p>
+    <div class="page-title">
+      <h1>Gestión de Inventario</h1>
+      <p>Sistema de información para automatización de productos</p>
     </div>
 
-    <div class="dropdown">
-      <button class="btn dropdown-toggle perfil-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="../imagenes/perfil.png" alt="Perfil" width="20" height="20">
-      </button>
-      <ul class="dropdown-menu dropdown-menu-end">
-        <li><a class="dropdown-item" href="../paginas/perfil.html">Mi perfil</a></li>
-        <li><a class="dropdown-item" href="../backend/logout.php">Cerrar sesión</a></li>
-      </ul>
+    <div class="welcome-section">
+      <h2>¡Bienvenido!</h2>
+      <p>Selecciona una opción del módulo:</p>
     </div>
-  </header>
 
-  <!-- MAIN -->
-  <main>
-    <div class="bienvenida-wrapper">
-      <span class="icono-lateral">
-        <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="currentColor" class="bi bi-arrow-left-right" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-2.147-2.146a.5.5 0 0 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+    <div class="options-grid">
+
+      <a href="{{ url('/registrar-devolucion') }}" class="option-card">
+    <div class="card-icon">
+      <div class="icon-circle">
+    
+        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
+          <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
         </svg>
-      </span>
-
-      <div class="bienvenida-texto">
-        <h2>¡Bienvenido!</h2>
-        <p>Selecciona una opción del módulo:</p>
       </div>
+    </div>
+    <div class="card-content">
+      <h3 class="card-title">Devoluciones</h3>
+      <p class="card-description">Gestiona productos devueltos por errores o daños</p>
+    </div>
+  </a>
 
-      <span class="icono-lateral">
-        <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="currentColor" class="bi bi-truck" viewBox="0 0 16 16">
-          <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5z"/>
-        </svg>
-      </span>
+      <a href="{{ url('/consultar-movimiento') }}" class="option-card">
+  <div class="card-icon">
+    <div class="icon-circle">
+    
+      <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M4 11H2v3h2zm5-4H7v7h2zm5-5v12h-2V2zm-2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM6 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm-5 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1z"/>
+      </svg>
+    </div>
+  </div>
+  <div class="card-content">
+    <h3 class="card-title">Ver Movimientos</h3>
+    <p class="card-description">Consulta entradas y salidas registradas</p>
+  </div>
+</a>
+
     </div>
 
-    <ul class="opciones-modulo">
-      <li>
-        <a href="/registrar-devolucion">
-          <div class="icono"><i class="bi bi-arrow-counterclockwise"></i></div>
-          <div class="titulo">Devoluciones</div>
-          <div class="descripcion">Gestiona productos devueltos por errores o daños</div>
-        </a>
-      </li>
+  </div>
 
-      <li>
-        <a href="/consultar-movimiento">
-          <div class="icono"><i class="bi bi-list-columns-reverse"></i></div>
-          <div class="titulo">Ver Movimientos</div>
-          <div class="descripcion">Consulta entradas y salidas registradas</div>
-        </a>
-      </li>
-    </ul>
-
-    <div class="volver">
-      <a href="../general/inicio-desbloqueado.html">
-        <img src="../imagenes/flecha-izquierda.png"  width="16" height="16"> Volver a la pagina principal
-      </a>
-    </div>
-  </main>
-
-  <!-- FOOTER -->
   <footer>
     <p>&copy; 2025 Invex. Todos los derechos reservados.</p>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

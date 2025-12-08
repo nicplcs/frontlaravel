@@ -8,82 +8,161 @@
 </head>
 <body>
 
-  <div class="container">
 
-  <div class="volver">
-      <a href="{{ route('modulo.movimiento') }}" class="btn-volver">
-      Volver al panel
-      </a>
+  <div class="header-nav">
+    <a href="{{ route('modulo.movimiento') }}" class="back-button">
+      ← Volver
+    </a>
+  </div>
+
+  <div class="main-container">
+
+    <div class="page-title">
+      <h1>Movimientos</h1>
+      <p>Gestiona el inventario de tu almacén</p>
     </div>
 
-    <h1 class="titulo">
-      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="24" fill="currentColor" class="icon">
-        <path fill-rule="evenodd" d="M5.5 9.5A.5.5 0 0 1 6 9h4a.5.5 0 0 1 0 1H6a..."/>
-      </svg>
-      Historial de Movimientos
-    </h1>
-
-    {{-- Mensaje de éxito --}}
     @if(session('success'))
       <div class="alert-success">
         {{ session('success') }}
       </div>
     @endif
 
-    {{-- Mensaje de error --}}
     @if(isset($error) || session('error'))
       <div class="alert-error">
         {{ $error ?? session('error') }}
       </div>
     @endif
 
-    <div class="tabla-container">
-      <table class="tabla">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Tipo</th>
-            <th>Descripción</th>
-            <th>Cantidad</th>
-            <th>Fecha</th>
-            <th>Usuario</th>
-            <th>Acción</th>
-            <th>ID Producto</th>
-            <th>Eliminar</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          @forelse($movimientos as $movimiento)
-            <tr>
-              <td>{{ $movimiento['id_movimiento'] }}</td>
-              <td>{{ $movimiento['tipo'] }}</td>
-              <td>{{ $movimiento['descripcion'] }}</td>
-              <td>{{ $movimiento['cantidad'] }}</td>
-              <td>{{ \Carbon\Carbon::parse($movimiento['fecha'])->format('d/m/Y H:i') }}</td>
-              <td>{{ $movimiento['usuario_responsable'] }}</td>
-              <td>{{ $movimiento['accion'] }}</td>
-              <td>{{ $movimiento['id_producto'] ?? '—' }}</td>
-              <td>
-                <form action="{{ route('movimientos.eliminar') }}" method="POST" 
-                      onsubmit="return confirm('¿Estás seguro de eliminar este movimiento?')">
-                  @csrf
-                  <input type="hidden" name="id" value="{{ $movimiento['id_movimiento'] }}">
-                  <button type="submit" class="btn-delete">
-                  Eliminar
-                  </button>
-                </form>
-              </td>
-            </tr>
-          @empty
-            <tr>
-              <td colspan="9" class="no-data">No hay movimientos registrados</td>
-            </tr>
-          @endforelse
-        </tbody>
-      </table>
+    <div class="search-container">
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input 
+          type="text" 
+          id="searchInput" 
+          class="search-input" 
+          placeholder="Buscar por ID, descripción, usuario o tipo..."
+          onkeyup="filtrarMovimientos()">
+        <button 
+          id="clearSearch" 
+          class="clear-btn" 
+          style="display: none;" 
+          onclick="limpiarBusqueda()">✕</button>
+      </div>
     </div>
+
+    <div class="providers-container">
+      <div class="table-header">
+        Lista de Movimientos ({{ count($movimientos) }})
+      </div>
+
+      <div class="providers-list">
+        @forelse($movimientos as $movimiento)
+          <div class="provider-item" data-movimiento='@json($movimiento)'>
+
+            <div class="provider-header">
+              <span class="provider-id">ID: {{ $movimiento['id_movimiento'] }}</span>
+              <span class="provider-status status-{{ strtolower($movimiento['tipo']) }}">
+                {{ strtoupper($movimiento['tipo']) }}
+              </span>
+            </div>
+
+            <div class="provider-name">{{ $movimiento['descripcion'] }}</div>
+
+            <div class="provider-info">
+              <div class="info-row">
+                <span class="info-label">Usuario:</span>
+                <span>{{ $movimiento['usuario_responsable'] }}</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Fecha:</span>
+                <span>{{ \Carbon\Carbon::parse($movimiento['fecha'])->format('d/m/Y H:i') }}</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Acción:</span>
+                <span>{{ $movimiento['accion'] }}</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Cantidad:</span>
+                <span>{{ $movimiento['cantidad'] }}</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">ID Producto:</span>
+                <span>{{ $movimiento['id_producto'] ?? '—' }}</span>
+              </div>
+            </div>
+
+            <div class="provider-actions">
+              <form action="{{ route('movimientos.eliminar') }}" method="POST" 
+                    onsubmit="return confirm('¿Estás seguro de eliminar este movimiento?')" 
+                    style="display: inline;">
+                @csrf
+                <input type="hidden" name="id" value="{{ $movimiento['id_movimiento'] }}">
+                <button type="submit" class="btn-delete">
+                Eliminar
+                </button>
+              </form>
+            </div>
+          </div>
+        @empty
+          <div class="no-data">
+            No hay movimientos registrados
+          </div>
+        @endforelse
+      </div>
+    </div>
+
   </div>
+
+  <script>
+
+    function filtrarMovimientos() {
+      const input = document.getElementById('searchInput');
+      const filter = input.value.toLowerCase().trim();
+      const clearBtn = document.getElementById('clearSearch');
+      const items = document.querySelectorAll('.provider-item');
+
+      clearBtn.style.display = filter ? 'block' : 'none';
+      
+      let visibleCount = 0;
+      
+      items.forEach(item => {
+        const movimiento = JSON.parse(item.getAttribute('data-movimiento'));
+        const searchText = `
+          ${movimiento.id_movimiento}
+          ${movimiento.descripcion}
+          ${movimiento.usuario_responsable}
+          ${movimiento.tipo}
+          ${movimiento.accion}
+          ${movimiento.id_producto || ''}
+        `.toLowerCase();
+        
+        if (searchText.includes(filter)) {
+          item.style.display = '';
+          visibleCount++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      const header = document.querySelector('.table-header');
+      const totalItems = items.length;
+      if (filter) {
+        header.textContent = `Mostrando ${visibleCount} de ${totalItems} movimientos`;
+      } else {
+        header.textContent = `Lista de Movimientos (${totalItems})`;
+      }
+    }
+
+    function limpiarBusqueda() {
+      document.getElementById('searchInput').value = '';
+      filtrarMovimientos();
+    }
+
+    document.getElementById('searchInput').addEventListener('input', function() {
+      document.getElementById('clearSearch').style.display = this.value ? 'block' : 'none';
+    });
+  </script>
 
 </body>
 </html>
