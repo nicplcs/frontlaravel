@@ -9,7 +9,7 @@
 <body>
 
   <div class="header-nav">
-    <a href="{{ url('/inicio') }}" class="back-button">
+    <a href="{{ url('/inicio-administrador') }}" class="back-button">
       ← Volver
     </a>
     <div class="role-badge">Administrador</div>
