@@ -9,7 +9,6 @@
 <body>
 
   <div class="header-nav">
-    <div class="role-badge">Rol: Administrador</div>
     <a href="{{ route('modulo.usuarios') }}" class="back-button">← Volver al módulo</a>
   </div>
 

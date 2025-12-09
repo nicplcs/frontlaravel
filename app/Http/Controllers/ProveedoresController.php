@@ -11,7 +11,12 @@ class ProveedoresController extends Controller
     public function index()
     {
         try {
-            $response = Http::timeout(10)->get('http://localhost:8080/proveedores');
+            // Agregar token si es necesario
+            $token = session('token');
+            
+            $response = Http::timeout(10)
+                ->withHeaders($token ? ['Authorization' => 'Bearer ' . $token] : [])
+                ->get('http://localhost:8080/proveedores');
             
             if ($response->successful()) {
                 $proveedores = $response->json();
@@ -42,21 +47,25 @@ class ProveedoresController extends Controller
         ]);
 
         try {
-            $response = Http::asJson()->post('http://localhost:8080/proveedores', [
-                'nombre' => $request->nombre,
-                'direccion' => $request->direccion,
-                'telefono' => $request->telefono,
-                'correo' => $request->correo,
-                'estado' => $request->estado
-            ]);
+            $token = session('token');
+            
+            $response = Http::withHeaders($token ? ['Authorization' => 'Bearer ' . $token] : [])
+                ->asJson()
+                ->post('http://localhost:8080/proveedores', [
+                    'nombre' => $request->nombre,
+                    'direccion' => $request->direccion,
+                    'telefono' => $request->telefono,
+                    'correo' => $request->correo,
+                    'estado' => $request->estado
+                ]);
 
-            if ($response->successful() || $response->status() == 200) {
+            if ($response->successful() || $response->status() == 200 || $response->status() == 201) {
                 return redirect()->route('proveedores.gestion')
                     ->with('success', 'Proveedor creado correctamente');
             }
 
             return redirect()->route('proveedores.gestion')
-                ->with('error', 'Error al crear proveedor');
+                ->with('error', 'Error al crear proveedor: ' . $response->body());
 
         } catch (\Exception $e) {
             return redirect()->route('proveedores.gestion')
@@ -77,15 +86,18 @@ class ProveedoresController extends Controller
         ]);
 
         try {
+            $token = session('token');
             $id = $request->input('id');
             
-            $response = Http::asJson()->put("http://localhost:8080/proveedores/{$id}", [
-                'nombre' => $request->nombre,
-                'direccion' => $request->direccion,
-                'telefono' => $request->telefono,
-                'correo' => $request->correo,
-                'estado' => $request->estado
-            ]);
+            $response = Http::withHeaders($token ? ['Authorization' => 'Bearer ' . $token] : [])
+                ->asJson()
+                ->put("http://localhost:8080/proveedores/{$id}", [
+                    'nombre' => $request->nombre,
+                    'direccion' => $request->direccion,
+                    'telefono' => $request->telefono,
+                    'correo' => $request->correo,
+                    'estado' => $request->estado
+                ]);
 
             if ($response->successful() || $response->status() == 200) {
                 return redirect()->route('proveedores.gestion')
@@ -93,7 +105,7 @@ class ProveedoresController extends Controller
             }
 
             return redirect()->route('proveedores.gestion')
-                ->with('error', 'Error al actualizar');
+                ->with('error', 'Error al actualizar: ' . $response->body());
 
         } catch (\Exception $e) {
             return redirect()->route('proveedores.gestion')
@@ -105,9 +117,11 @@ class ProveedoresController extends Controller
     public function destroy(Request $request)
     {
         try {
+            $token = session('token');
             $id = $request->input('id');
             
-            $response = Http::delete("http://localhost:8080/proveedores/{$id}");
+            $response = Http::withHeaders($token ? ['Authorization' => 'Bearer ' . $token] : [])
+                ->delete("http://localhost:8080/proveedores/{$id}");
 
             if ($response->successful() || $response->status() == 200) {
                 return redirect()->route('proveedores.gestion')
@@ -115,7 +129,7 @@ class ProveedoresController extends Controller
             }
 
             return redirect()->route('proveedores.gestion')
-                ->with('error', 'Error al eliminar');
+                ->with('error', 'Error al eliminar: ' . $response->body());
 
         } catch (\Exception $e) {
             return redirect()->route('proveedores.gestion')

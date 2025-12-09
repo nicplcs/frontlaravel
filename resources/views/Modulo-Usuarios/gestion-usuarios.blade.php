@@ -10,10 +10,9 @@
 
   <div class="container">
 
-    <div class="volver-arriba">
-      <a href="{{ route('modulo.usuarios') }}" class="btn-volver">
-      Volver al panel
-      </a>
+    
+    <a href="{{ route('modulo.usuarios') }}" class="btn-volver">
+      ← Volver al Modulo</a>
     </div>
 
     <h1 class="titulo">
@@ -35,12 +34,33 @@
       </div>
     @endif
 
-    <div class="formulario-container">
-      <h2 class="subtitulo" id="form-title">Agregar Usuario</h2>
+    {{-- Detectar si estamos editando --}}
+    @php
+      $editando = request()->has('editar');
+      $usuarioEditar = null;
       
-      <form id="form-usuario" action="{{ route('usuarios.store') }}" method="POST" class="formulario-usuario">
+      if ($editando) {
+        $usuarioEditar = collect($usuarios)->firstWhere('id_usuario', request()->get('editar'));
+      }
+    @endphp
+
+    <div class="formulario-container">
+      <h2 class="subtitulo">
+        @if($editando && $usuarioEditar)
+          Editar Usuario #{{ $usuarioEditar['id_usuario'] }}
+        @else
+          Agregar Usuario
+        @endif
+      </h2>
+      
+      <form action="{{ $editando && $usuarioEditar ? route('usuarios.update') : route('usuarios.store') }}" method="POST" class="formulario-usuario">
         @csrf
-        <input type="hidden" id="usuario-id" name="id">
+        
+        {{-- Si estamos editando, agregar método PUT --}}
+        @if($editando && $usuarioEditar)
+          @method('PUT')
+          <input type="hidden" name="id" value="{{ $usuarioEditar['id_usuario'] }}">
+        @endif
 
         <div class="form-row">
           <div class="form-group">
@@ -50,7 +70,8 @@
               </svg>
               Nombre:
             </label>
-            <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan Pérez" required>
+            <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan Pérez" 
+                   value="{{ $usuarioEditar['nombre'] ?? old('nombre') }}" required>
           </div>
 
           <div class="form-group">
@@ -60,7 +81,8 @@
               </svg>
               Correo:
             </label>
-            <input type="email" id="correo" name="correo" placeholder="ejemplo@correo.com" required>
+            <input type="email" id="correo" name="correo" placeholder="ejemplo@correo.com" 
+                   value="{{ $usuarioEditar['correo'] ?? old('correo') }}" required>
           </div>
         </div>
 
@@ -72,7 +94,9 @@
               </svg>
               Contraseña:
             </label>
-            <input type="password" id="contrasena" name="contrasena" placeholder="Mínimo 6 caracteres" required>
+            <input type="password" id="contrasena" name="contrasena" 
+                   placeholder="{{ $editando && $usuarioEditar ? 'Dejar vacío para no cambiar' : 'Mínimo 6 caracteres' }}" 
+                   {{ $editando && $usuarioEditar ? '' : 'required' }}>
           </div>
 
           <div class="form-group">
@@ -82,20 +106,22 @@
               </svg>
               Teléfono:
             </label>
-            <input type="tel" id="telefono" name="telefono" placeholder="Ej: 3001234567">
+            <input type="tel" id="telefono" name="telefono" placeholder="Ej: 3001234567"
+                   value="{{ $usuarioEditar['telefono'] ?? old('telefono') }}">
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group">
-            <label for="fecha_nacimiento">
+            <label for="fecha_Nacimiento">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
                 <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
               </svg>
               Fecha Nacimiento:
             </label>
-            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento">
+           <input type="date" id="fecha_Nacimiento" name="fecha_Nacimiento"
+       value="{{ isset($usuarioEditar['fecha_Nacimiento']) ? \Carbon\Carbon::parse($usuarioEditar['fecha_Nacimiento'])->format('Y-m-d') : old('fecha_Nacimiento') }}">
           </div>
 
           <div class="form-group">
@@ -107,8 +133,8 @@
             </label>
             <select id="rol" name="rol" required>
               <option value="">Seleccionar rol</option>
-              <option value="administrador">Administrador</option>
-              <option value="Empleado">Empleado</option>
+              <option value="administrador" {{ ($usuarioEditar['rol'] ?? old('rol')) == 'administrador' ? 'selected' : '' }}>Administrador</option>
+              <option value="Empleado" {{ ($usuarioEditar['rol'] ?? old('rol')) == 'Empleado' ? 'selected' : '' }}>Empleado</option>
             </select>
           </div>
         </div>
@@ -123,19 +149,26 @@
             </label>
             <select id="estado" name="estado" required>
               <option value="">Seleccionar estado</option>
-              <option value="1">Activo</option>
-              <option value="0">Inactivo</option>
+              <option value="1" {{ ($usuarioEditar['estado'] ?? old('estado')) == '1' ? 'selected' : '' }}>Activo</option>
+              <option value="0" {{ ($usuarioEditar['estado'] ?? old('estado')) == '0' ? 'selected' : '' }}>Inactivo</option>
             </select>
           </div>
         </div>
 
         <div class="form-actions">
-          <button type="submit" class="btn-submit" id="btn-submit">
-            <span id="btn-text">Agregar Usuario</span>
+          <button type="submit" class="btn-submit">
+            @if($editando && $usuarioEditar)
+              Actualizar Usuario
+            @else
+              Agregar Usuario
+            @endif
           </button>
-          <button type="button" class="btn-cancel" id="btn-cancel" onclick="cancelarEdicion()" style="display: none;">
-            Cancelar
-          </button>
+          
+          @if($editando && $usuarioEditar)
+            <a href="{{ route('usuarios.gestion') }}" class="btn-cancel">
+              Cancelar
+            </a>
+          @endif
         </div>
       </form>
     </div>
@@ -165,8 +198,8 @@
                 <td>{{ $usuario['correo'] }}</td>
                 <td>{{ $usuario['telefono'] ?? '-' }}</td>
                 <td>
-                  @if(isset($usuario['fecha_nacimiento']))
-                    {{ \Carbon\Carbon::parse($usuario['fecha_nacimiento'])->format('d/m/Y') }}
+                  @if(isset($usuario['fecha_Nacimiento']))
+                    {{ \Carbon\Carbon::parse($usuario['fecha_Nacimiento'])->format('d/m/Y') }}
                   @else
                     -
                   @endif
@@ -174,9 +207,9 @@
                 <td>{{ $usuario['rol'] }}</td>
                 <td>{{ $usuario['estado'] == '1' ? 'Activo' : 'Inactivo' }}</td>
                 <td class="acciones">
-                  <button onclick="editarUsuario({{ json_encode($usuario) }})" class="btn-edit">
-                  Editar
-                  </button>
+                  <a href="{{ route('usuarios.gestion') }}?editar={{ $usuario['id_usuario'] }}" class="btn-edit">
+                    Editar
+                  </a>
                   
                   <form action="{{ route('usuarios.destroy') }}" method="POST" style="display: inline;" 
                         onsubmit="return confirm('¿Estás seguro de eliminar este usuario?')">
@@ -199,44 +232,6 @@
     </div>
 
   </div>
-
-  <script>
-    function editarUsuario(usuario) {
-      document.getElementById('form-title').textContent = 'Editar Usuario #' + usuario.id_usuario;
-      document.getElementById('form-usuario').action = "{{ route('usuarios.update') }}";
-      
-      document.getElementById('usuario-id').value = usuario.id_usuario;
-      document.getElementById('nombre').value = usuario.nombre;
-      document.getElementById('correo').value = usuario.correo;
-      document.getElementById('telefono').value = usuario.telefono || '';
-      document.getElementById('fecha_nacimiento').value = usuario.fecha_nacimiento || '';
-      document.getElementById('rol').value = usuario.rol;
-      document.getElementById('estado').value = usuario.estado;
-      
-      const passwordInput = document.getElementById('contrasena');
-      passwordInput.required = false;
-      passwordInput.value = '';
-      passwordInput.placeholder = 'Dejar vacío para no cambiar';
-      
-      document.getElementById('btn-text').textContent = 'Actualizar Usuario';
-      document.getElementById('btn-cancel').style.display = 'inline-block';
-      
-      document.querySelector('.formulario-container').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function cancelarEdicion() {
-      document.getElementById('form-usuario').reset();
-      document.getElementById('form-usuario').action = "{{ route('usuarios.store') }}";
-      document.getElementById('usuario-id').value = '';
-      document.getElementById('form-title').textContent = 'Agregar Usuario';
-      document.getElementById('btn-text').textContent = 'Agregar Usuario';
-      document.getElementById('btn-cancel').style.display = 'none';
-      
-      const passwordInput = document.getElementById('contrasena');
-      passwordInput.required = true;
-      passwordInput.placeholder = 'Mínimo 6 caracteres';
-    }
-  </script>
 
 </body>
 </html>

@@ -280,6 +280,7 @@ body {
   padding: 8px 16px;
   background: linear-gradient(135deg, #ffc107, #ff9800);
   color: #000;
+   text-decoration: none;
   border: none;
   border-radius: 8px;
   font-weight: 700;
@@ -291,6 +292,7 @@ body {
 .btn-edit:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(255, 193, 7, 0.4);
+  text-decoration: none;
 }
 
 .btn-delete {
@@ -361,4 +363,22 @@ body {
   .acciones {
     flex-direction: column;
   }
+}
+
+.btn-cancel {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #6c757d;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  margin-left: 10px;
+}
+
+.btn-cancel:hover {
+  background-color: #5a62689f;
 }

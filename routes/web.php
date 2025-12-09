@@ -28,6 +28,11 @@ Route::get('/logout', function () {
     return redirect()->route('login')->with('success', 'Sesión cerrada correctamente');
 })->name('logout');
 
+//REGISTRO DE USUARIOS
+Route::get('/registro', function () {
+    return view('Login.registro'); 
+})->name('registro');
+
 
 Route::get('/inicio-administrador', function () {
     return view('Administrador.inicio-administrador');
@@ -35,7 +40,7 @@ Route::get('/inicio-administrador', function () {
 
 
 Route::get('/inicio-empleado', function () {
-    return view('Administrador.inicio-empleado');
+    return view('Empleado.inicio-empleado');
 })->name('inicio.empleado');
 
 
@@ -72,9 +77,9 @@ Route::get('/gestion-usuarios', [UsuariosController::class, 'index'])
 Route::post('/usuarios/crear', [UsuariosController::class, 'store'])
     ->name('usuarios.store');
 
-Route::post('/usuarios/actualizar', [UsuariosController::class, 'update'])
+Route::match(['post', 'put'], '/usuarios/actualizar', [UsuariosController::class, 'update'])
     ->name('usuarios.update');
-
+    
 Route::post('/usuarios/eliminar', [UsuariosController::class, 'destroy'])
     ->name('usuarios.destroy');
 
