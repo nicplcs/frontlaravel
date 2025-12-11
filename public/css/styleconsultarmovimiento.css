@@ -1,6 +1,5 @@
-/* ------------------------- */
-/*      RESET Y GLOBAL       */
-/* ------------------------- */
+/*RESET Y GLOBAL*/      
+
 * {
   margin: 0;
   padding: 0;
@@ -17,9 +16,9 @@ body {
   padding: 20px;
 }
 
-/* ------------------------- */
-/*      HEADER NAVEGACIÓN    */
-/* ------------------------- */
+
+/*HEADER NAVEGACION*/
+
 .header-nav {
   display: flex;
   align-items: center;
@@ -56,17 +55,16 @@ body {
   transform: translateY(-2px);
 }
 
-/* ------------------------- */
-/*      CONTENEDOR PRINCIPAL */
-/* ------------------------- */
+/*CONTENEDOR PRINCIPAL*/
+
 .main-container {
   max-width: 1400px;
   margin: 0 auto;
 }
 
-/* ------------------------- */
-/*         TÍTULO            */
-/* ------------------------- */
+
+/*TÍTULO*/
+
 .page-title {
   text-align: center;
   color: white;
@@ -86,9 +84,7 @@ body {
   text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
 }
 
-/* ------------------------- */
-/*         ALERTAS           */
-/* ------------------------- */
+/*ALERTAS*/
 .alert-success {
   background: rgba(40, 167, 69, 0.3);
   backdrop-filter: blur(15px);
@@ -111,9 +107,8 @@ body {
   font-weight: 500;
 }
 
-/* ------------------------- */
-/*      BARRA DE BÚSQUEDA    */
-/* ------------------------- */
+
+/*BARRA DE BÚSQUEDA*/
 .search-container {
   margin-bottom: 30px;
 }
@@ -171,9 +166,8 @@ body {
   transform: scale(1.1);
 }
 
-/* ------------------------- */
-/*      CONTENEDOR TABLA     */
-/* ------------------------- */
+/*CONTENEDOR TABLA*/
+
 .providers-container {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
@@ -191,9 +185,7 @@ body {
   font-size: 1.2rem;
 }
 
-/* ------------------------- */
-/*      LISTA MOVIMIENTOS    */
-/* ------------------------- */
+/*LISTA MOVIMIENTO*/
 .providers-list {
   max-height: 600px;
   overflow-y: auto;
@@ -213,7 +205,7 @@ body {
   transform: translateX(5px);
 }
 
-/* Header del item */
+/*Header del item*/
 .provider-header {
   display: flex;
   align-items: center;
@@ -258,7 +250,7 @@ body {
   color: #ffd966;
 }
 
-/* Nombre/Descripción */
+/*Nombre/Descripcion*/
 .provider-name {
   font-size: 1.3rem;
   font-weight: 700;
@@ -267,7 +259,7 @@ body {
   text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 }
 
-/* Información */
+/* Informacion*/
 .provider-info {
   color: rgba(255, 255, 255, 0.95);
   line-height: 1.8;
@@ -287,7 +279,7 @@ body {
   min-width: 110px;
 }
 
-/* Acciones */
+/*Acciones*/
 .provider-actions {
   display: flex;
   gap: 10px;
@@ -311,7 +303,7 @@ body {
   box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
 }
 
-/* Sin datos */
+/*Sin datos*/
 .no-data {
   text-align: center;
   color: rgba(255, 255, 255, 0.7);
@@ -320,9 +312,8 @@ body {
   font-style: italic;
 }
 
-/* ------------------------- */
-/*       SCROLLBAR           */
-/* ------------------------- */
+/*SCROLLBAR*/
+
 .providers-list::-webkit-scrollbar {
   width: 8px;
 }
@@ -341,9 +332,7 @@ body {
   background: rgba(255, 255, 255, 0.5);
 }
 
-/* ------------------------- */
-/*       RESPONSIVE          */
-/* ------------------------- */
+/*RESPONSIVE*/
 @media (max-width: 768px) {
   .page-title h1 {
     font-size: 2rem;

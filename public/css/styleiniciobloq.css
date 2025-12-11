@@ -1,170 +1,361 @@
+/* ------------------------- */
+/*      RESET Y GLOBAL       */
+/* ------------------------- */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
-  height: 100%;
-  font-family: 'Outfit', sans-serif;
-  color: #ffffff;
-  position: relative;
-  z-index: 1;
-}
-
 body {
-  display: flex;
-  flex-direction: column;
+  font-family: 'Outfit', 'Segoe UI', sans-serif;
   min-height: 100vh;
+  position: relative;
   overflow-x: hidden;
+  color: white;
 }
 
-
+/* ------------------------- */
+/*      VIDEO DE FONDO       */
+/* ------------------------- */
 .video-fondo {
   position: fixed;
   top: 0;
   left: 0;
-  min-width: 100%;
-  min-height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   z-index: -2;
 }
 
-
+/* Overlay oscuro sobre el video */
 .overlay {
   position: fixed;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8));
   z-index: -1;
 }
 
+/* ------------------------- */
+/*         HEADER            */
+/* ------------------------- */
 .header {
-  background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  padding: 20px 60px;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .logo {
   display: flex;
   align-items: center;
+  gap: 15px;
 }
 
 .logo img {
-  height: 50px;
-  margin-right: 35px;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
 }
 
 .logo h1 {
-  font-size: 24px;
-  font-weight: 700;
-  color: #edebff;
+  font-size: 2rem;
+  font-weight: 800;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+  letter-spacing: 1px;
 }
+
+/* Navegación */
+.navegacion {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
 .navegacion a {
-  margin-left: 15px;
-  padding: 10px 20px;
-  border-radius: 30px;
   text-decoration: none;
+  color: white;
   font-weight: 600;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 25px;
   transition: all 0.3s ease;
-  border: 2px solid lightyellow;
-  background: transparent;
-  color: lightyellow;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .navegacion a:hover {
-  background-color: #f9f9b7;;
-  color: #000;
-  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
 }
 
+.btn-acceso {
+  background: linear-gradient(135deg, #667eea, #764ba2) !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
 
+.btn-acceso:hover {
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
 
-
-main {
-  flex: 1;
-  padding: 80px 40px 60px;
+/* ------------------------- */
+/*      SECCIÓN HERO         */
+/* ------------------------- */
+.hero {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 25px 25px;
   text-align: center;
 }
 
-.hero {
-  margin-bottom: 80px;
+.texto-hero {
+  max-width: 800px;
+  animation: fadeInUp 1s ease-out;
 }
 
 .texto-hero h2 {
-  font-size: 42px;
+  font-size: 3.5rem;
   font-weight: 800;
-  line-height: 1.3;
-  margin-bottom: 20px;
-  color: #ffffff;
+  line-height: 1.2;
+  margin-bottom: 25px;
+  text-shadow: 3px 3px 15px rgba(0,0,0,0.5);
 }
 
 .texto-hero h2 span {
-  color: lightyellow;
+  background: linear-gradient(135deg, #fff, #e0e0e0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: block;
+  margin-top: 10px;
 }
 
 .texto-hero p {
-  font-size: 18px;
-  color: #eaeaea;
-  margin-bottom: 30px;
+  font-size: 1.3rem;
+  margin-bottom: 40px;
+  opacity: 0.95;
+  line-height: 1.6;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .btn-cta {
-  background: lightyellow;
-  color: #000;
-  padding: 14px 36px;
-  border-radius: 30px;
-  font-weight: bold;
+  display: inline-block;
+  padding: 18px 45px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
   text-decoration: none;
-  transition: background 0.3s ease;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  box-shadow: 0 6px 30px rgba(102, 126, 234, 0.5);
+  transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .btn-cta:hover {
-  background: rgb(255, 255, 122);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 40px rgba(102, 126, 234, 0.7);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
+/* ------------------------- */
+/*      BENEFICIOS           */
+/* ------------------------- */
 .beneficios {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap; 
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  padding: 40px 60px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .beneficio {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  padding: 25px 20px;
-  width: 280px;
+  border-radius: 20px;
+  padding: 40px 30px;
   text-align: center;
-  box-shadow: 0 8px 15px rgba(0,0,0,0.4);
-  transition: transform 0.3s;
-  backdrop-filter: blur(6px);
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .beneficio:hover {
-  transform: translateY(-6px);
+  transform: translateY(-10px);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
 }
 
 .beneficio h3 {
-  font-size: 20px;
-  color: lightyellow;
-  margin-bottom: 10px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
+
+.beneficio h3 svg {
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
 }
 
 .beneficio p {
-  font-size: 16px;
-  color: #f0f0f0;
+  font-size: 1rem;
+  line-height: 1.6;
+  opacity: 0.9;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 }
 
+/* ------------------------- */
+/*         FOOTER            */
+/* ------------------------- */
 footer {
-  background-color: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(15px);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
   text-align: center;
-  padding: 20px;
-  font-size: 14px;
-  color: #cccccc;
+  padding: 25px;
+  margin-top: 60px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+footer p {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* ------------------------- */
+/*       ANIMACIONES         */
+/* ------------------------- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.beneficio:nth-child(1) {
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+.beneficio:nth-child(2) {
+  animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+.beneficio:nth-child(3) {
+  animation: fadeInUp 0.6s ease-out 0.6s both;
+}
+
+/* ------------------------- */
+/*       RESPONSIVE          */
+/* ------------------------- */
+@media (max-width: 1024px) {
+  .header {
+    padding: 20px 40px;
+  }
+
+  .beneficios {
+    padding: 60px 40px;
+  }
+
+  .texto-hero h2 {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 30px;
+  }
+
+  .logo h1 {
+    font-size: 1.5rem;
+  }
+
+  .navegacion {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .navegacion a {
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero {
+    padding: 40px 20px;
+  }
+
+  .texto-hero h2 {
+    font-size: 2rem;
+  }
+
+  .texto-hero p {
+    font-size: 1.1rem;
+  }
+
+  .btn-cta {
+    padding: 15px 35px;
+    font-size: 1rem;
+  }
+
+  .beneficios {
+    grid-template-columns: 1fr;
+    padding: 40px 20px;
+    gap: 20px;
+  }
+
+  .beneficio {
+    padding: 30px 20px;
+  }
+
+  .beneficio h3 {
+    font-size: 1.3rem;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .texto-hero h2 {
+    font-size: 1.8rem;
+  }
+
+  .texto-hero p {
+    font-size: 1rem;
+  }
 }
