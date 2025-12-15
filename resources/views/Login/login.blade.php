@@ -77,7 +77,7 @@
         <img src="{{ asset('imagenes/salida.webp') }}" alt="Salida" width="20" height="20"> 
         Volver al inicio
       </a>
-      <a href="#" class="olvide">
+      <a href="{{ url('/forgot-password') }}" class="olvide">
         <img src="{{ asset('imagenes/interrogacion.webp') }}" alt="Interrogación" width="20" height="20"> 
         ¿Olvidaste tu contraseña?
       </a>

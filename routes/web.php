@@ -142,3 +142,12 @@ Route::get('/interfaz-caleb', function () {
 Route::get('/inicio-bloqueado', function () {
     return view('inicio.inicio-bloqueado');
 })->name('inicio.bloqueado');
+
+    //reset password
+Route::get('/forgot-password', function () {
+    return view('Login.forgot-password');
+})->name('password.request');
+
+Route::get('/reset-password', function () {
+    return view('Login.reset-password');
+})->name('password.reset');
