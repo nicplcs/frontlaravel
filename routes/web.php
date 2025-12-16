@@ -13,6 +13,8 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardAdministradorController;
 use App\Http\Controllers\DashboardEmpleadoController;
 use App\Http\Controllers\ProveedoresEmpleadoController;
+use App\Http\Controllers\MovimientosEmpleadoController;
+use App\Http\Controllers\DevolucionesEmpleadoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -155,4 +157,12 @@ Route::get('/forgot-password', function () {
 Route::get('/reset-password', function () {
     return view('Login.reset-password');
 })->name('password.reset');
+
+// EMPLEADOS MOVIMIENTOS
+Route::get('/empleado/movimientos', [MovimientosEmpleadoController::class, 'consultarMovimientos'])
+    ->name('empleado.movimientos.consultar');
+
+// EMPLEADOS DEVOLUCIONES
+Route::get('/empleado/devoluciones', [DevolucionesEmpleadoController::class, 'index'])
+    ->name('empleado.devoluciones.consultar');
 
