@@ -97,16 +97,18 @@
             </div>
 
             <div class="provider-actions">
-              <form action="{{ route('movimientos.eliminar') }}" method="POST" 
-                    onsubmit="return confirm('¿Estás seguro de eliminar este movimiento?')" 
-                    style="display: inline;">
-                @csrf
-                <input type="hidden" name="id" value="{{ $movimiento['id_movimiento'] }}">
-                <button type="submit" class="btn-delete">
-                Eliminar
-                </button>
-              </form>
-            </div>
+  <button 
+    onclick="descargarPDF({{ $movimiento['id_movimiento'] }})" 
+    class="btn-pdf"
+    title="Descargar PDF">
+    PDF
+  </button>
+  <button 
+    onclick="mostrarModalEliminar({{ $movimiento['id_movimiento'] }})" 
+    class="btn-delete">
+    Eliminar
+  </button>
+</div>
           </div>
         @empty
           <div class="no-data">
@@ -166,7 +168,117 @@
     document.getElementById('searchInput').addEventListener('input', function() {
       document.getElementById('clearSearch').style.display = this.value ? 'block' : 'none';
     });
+
+    function descargarPDF(idMovimiento) {
+      const url = `http://localhost:8080/movimientos/${idMovimiento}/pdf`;
+      window.open(url, '_blank');
+    }
+    let movimientoAEliminar = null;
+
+function mostrarModalEliminar(idMovimiento) {
+  movimientoAEliminar = idMovimiento;
+  document.getElementById('modalEliminar').style.display = 'block';
+  document.getElementById('passwordConfirm').value = '';
+  document.getElementById('errorMessage').style.display = 'none';
+  document.getElementById('passwordConfirm').focus();
+}
+
+function cerrarModal() {
+  document.getElementById('modalEliminar').style.display = 'none';
+  movimientoAEliminar = null;
+}
+
+async function confirmarEliminacion() {
+  const password = document.getElementById('passwordConfirm').value;
+  const errorDiv = document.getElementById('errorMessage');
+  
+  if (!password) {
+    errorDiv.textContent = 'Por favor ingresa tu contraseña';
+    errorDiv.style.display = 'block';
+    return;
+  }
+  
+  try {
+    const formData = new FormData();
+    formData.append('password', password);
+    formData.append('id_movimiento', movimientoAEliminar);
+    formData.append('_token', '{{ csrf_token() }}');
+    
+    const response = await fetch('{{ url("/validar-password-eliminar") }}', {
+      method: 'POST',
+      body: formData
+    });
+    
+    const resultado = await response.json();
+    
+    if (resultado.success) {
+      cerrarModal();
+      alert(resultado.mensaje);
+      location.reload();
+    } else {
+      errorDiv.textContent = resultado.mensaje;
+      errorDiv.style.display = 'block';
+      document.getElementById('passwordConfirm').value = '';
+      document.getElementById('passwordConfirm').focus();
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    errorDiv.textContent = 'Error de conexión con el servidor';
+    errorDiv.style.display = 'block';
+  }
+}
+window.onclick = function(event) {
+  const modal = document.getElementById('modalEliminar');
+  if (event.target == modal) {
+    cerrarModal();
+  }
+}
+
+document.addEventListener('keypress', function(e) {
+  if (e.key === 'Enter' && document.getElementById('modalEliminar').style.display === 'block') {
+    confirmarEliminacion();
+  }
+});
   </script>
+<div id="modalEliminar" class="modal" style="display: none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Confirmar Eliminación</h2>
+      <span class="close-modal" onclick="cerrarModal()">&times;</span>
+    </div>
+    
+<div class="modal-body">
+  <p>Para eliminar este movimiento, confirma tu contraseña:</p>
+  
+  <div class="form-group">
+    <label for="correoUsuario">Usuario:</label>
+    <input 
+      type="text" 
+      id="correoUsuario" 
+      class="input-modal" 
+      value="{{ session('nombre') ?? 'Usuario' }}"
+      readonly>
+  </div>
+  
+  <div class="form-group">
+    <label for="passwordConfirm">Contraseña:</label>
+    <input 
+      type="password" 
+      id="passwordConfirm" 
+      class="input-modal" 
+      placeholder="Ingresa tu contraseña"
+      autofocus>
+  </div>
+  
+  <div id="errorMessage" class="error-message" style="display: none;"></div>
+</div>
+    
+    <div class="modal-footer">
+      <button onclick="cerrarModal()" class="btn-cancelar">Cancelar</button>
+      <button onclick="confirmarEliminacion()" class="btn-confirmar">Confirmar</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
