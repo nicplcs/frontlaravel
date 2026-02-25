@@ -15,6 +15,10 @@ use App\Http\Controllers\DashboardEmpleadoController;
 use App\Http\Controllers\ProveedoresEmpleadoController;
 use App\Http\Controllers\MovimientosEmpleadoController;
 use App\Http\Controllers\DevolucionesEmpleadoController;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('welcome');
@@ -55,6 +59,61 @@ Route::get('/modulo-movimiento', function () {
 
 Route::post('/movimientos/eliminar', [MovimientosController::class, 'eliminar'])
     ->name('movimientos.eliminar');
+    
+Route::post('/validar-password-eliminar', function(Request $request) {
+    try {
+        $correoSesion = session('correo');
+        
+        if (!$correoSesion) {
+            return response()->json([
+                'success' => false,
+                'mensaje' => 'Sesión expirada'
+            ], 401);
+        }
+        
+        $password = $request->input('password');
+        $id_movimiento = $request->input('id_movimiento');
+        
+        if (!$password || !$id_movimiento) {
+            return response()->json([
+                'success' => false,
+                'mensaje' => 'Datos incompletos'
+            ], 400);
+        }
+        $url = 'http://localhost:8080/validar-eliminar-movimiento';
+        $ch = curl_init($url);
+        
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+            'correo' => $correoSesion,
+            'contrasena' => $password,
+            'id_movimiento' => (string)$id_movimiento
+        ]));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        
+        $respuesta = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        
+        if ($httpCode == 200) {
+            $resultado = json_decode($respuesta, true);
+            return response()->json($resultado);
+        } else {
+            $resultado = json_decode($respuesta, true);
+            return response()->json([
+                'success' => false,
+                'mensaje' => $resultado['mensaje'] ?? 'Error al validar'
+            ], $httpCode);
+        }
+        
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'mensaje' => 'Error del servidor: ' . $e->getMessage()
+        ], 500);
+    }
+})->name('validar.password.eliminar');
 
     // Devoluciones
 
@@ -165,4 +224,3 @@ Route::get('/empleado/movimientos', [MovimientosEmpleadoController::class, 'cons
 // EMPLEADOS DEVOLUCIONES
 Route::get('/empleado/devoluciones', [DevolucionesEmpleadoController::class, 'index'])
     ->name('empleado.devoluciones.consultar');
-
