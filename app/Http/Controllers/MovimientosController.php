@@ -12,12 +12,10 @@ class MovimientosController extends Controller
         try {
             $token = session('token');
             
-            // Consume tu API de Spring Boot
             $response = Http::timeout(10)
                 ->withHeaders($token ? ['Authorization' => 'Bearer ' . $token] : [])
                 ->get('http://localhost:8080/movimientos');
             
-            // Verifica si la respuesta fue exitosa
             if ($response->successful()) {
                 $movimientos = $response->json();
             } else {
@@ -25,7 +23,7 @@ class MovimientosController extends Controller
             }
             
         } catch (\Exception $e) {
-            // Si hay error de conexión
+         
             $movimientos = [];
             $error = "Error al conectar con la API: " . $e->getMessage();
         }
@@ -59,4 +57,55 @@ class MovimientosController extends Controller
             return back()->with('error', 'No se pudo comunicar con la API: ' . $e->getMessage());
         }
     }
+     public function validarPasswordEliminar(Request $request)
+    {
+        try {
+            $correoSesion = session('correo');
+            
+            if (!$correoSesion) {
+                return response()->json([
+                    'success' => false,
+                    'mensaje' => 'Sesión expirada'
+                ], 401);
+            }
+            
+            $password = $request->input('password');
+            $id_movimiento = $request->input('id_movimiento');
+            
+            if (!$password || !$id_movimiento) {
+                return response()->json([
+                    'success' => false,
+                    'mensaje' => 'Datos incompletos'
+                ], 400);
+            }
+            
+            $token = session('token');
+            
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+                'Authorization' => $token ? 'Bearer ' . $token : ''
+            ])->post('http://localhost:8080/validar-eliminar-movimiento', [
+                'correo' => $correoSesion,
+                'contrasena' => $password,
+                'id_movimiento' => (string)$id_movimiento
+            ]);
+            
+            if ($response->successful()) {
+                return response()->json($response->json());
+            } else {
+                $resultado = $response->json();
+                return response()->json([
+                    'success' => false,
+                    'mensaje' => $resultado['mensaje'] ?? 'Error al validar'
+                ], $response->status());
+            }
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'mensaje' => 'Error del servidor: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
 }
