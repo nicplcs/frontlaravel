@@ -94,6 +94,9 @@ Route::match(['post', 'put'], '/usuarios/actualizar', [UsuariosController::class
 Route::post('/usuarios/eliminar', [UsuariosController::class, 'destroy'])
     ->name('usuarios.destroy');
 
+    Route::post('/validar-password-desactivar', [UsuariosController::class, 'validarPasswordDesactivar'])
+    ->name('usuarios.validar.desactivar');
+
     // PROVEEDORES
 Route::get('/gestion-proveedores', [ProveedoresController::class, 'index'])
     ->name('proveedores.gestion');
@@ -106,6 +109,9 @@ Route::post('/proveedores/actualizar', [ProveedoresController::class, 'update'])
 
 Route::post('/proveedores/eliminar', [ProveedoresController::class, 'destroy'])
     ->name('proveedores.destroy');
+
+    Route::post('/validar-password-desactivar-proveedor', [ProveedoresController::class, 'validarPasswordDesactivar'])
+    ->name('proveedores.validar.desactivar');
 
 // PRODUCTOS
 

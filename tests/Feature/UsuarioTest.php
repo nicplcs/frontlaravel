@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class UsuarioTest extends TestCase
 {
-    // --- USUARIOS ---
+    // --- USUARIOS ---     
 
     // prueba que la lista de usuarios cargue bien cuando el back responde normal
     public function test_gestion_usuarios_carga_correctamente_con_respuesta_exitosa()
