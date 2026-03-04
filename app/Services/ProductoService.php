@@ -4,116 +4,123 @@ namespace App\Services;
 
 class ProductoService
 {
-    private $apiUrl = "http://localhost:8080/productos";
+    private string $apiUrl = "http://localhost:8080/productos";
 
-    
-    private function obtenerToken()
+    private function obtenerToken(): ?string
     {
-        return session('token', null);
+        return session('token');
     }
 
-    // GET 
-    public function obtenerProductos()
+    public function obtenerProductos(): array
     {
         $token = $this->obtenerToken();
         if (!$token) return [];
 
-        $proceso = curl_init($this->apiUrl);
-        curl_setopt($proceso, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($proceso, CURLOPT_HTTPHEADER, [
-            'Authorization: Bearer ' . $token
+        $curl = curl_init($this->apiUrl);
+
+        curl_setopt_array($curl, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 5,               
+            CURLOPT_CONNECTTIMEOUT => 3,      
+            CURLOPT_HTTPHEADER => [
+                'Authorization: Bearer ' . $token
+            ]
         ]);
 
-        $respuesta = curl_exec($proceso);
-        $http_code = curl_getinfo($proceso, CURLINFO_HTTP_CODE);
-        curl_close($proceso);
+        $respuesta = curl_exec($curl);
 
-        if ($http_code !== 200) return [];
+        if (curl_errno($curl)) {
+            curl_close($curl);
+            return [];
+        }
+
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
+
+        if ($httpCode !== 200) return [];
+
         return json_decode($respuesta, true) ?? [];
     }
 
-    // POST 
-    public function agregarProducto($producto)
+    
+    public function actualizarProducto(int $id, array $producto): array
     {
         $token = $this->obtenerToken();
-        if (!$token) return ["success" => false, "error" => "No hay sesión activa"];
+        if (!$token) {
+            return ["success" => false, "error" => "No hay sesión activa"];
+        }
 
-        $data_json = json_encode($producto);
+        $dataJson = json_encode($producto);
 
-        $proceso = curl_init($this->apiUrl);
-        curl_setopt($proceso, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($proceso, CURLOPT_POSTFIELDS, $data_json);
-        curl_setopt($proceso, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($proceso, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $token,
-            'Content-Length: ' . strlen($data_json)
+        $curl = curl_init($this->apiUrl . "/" . $id);
+
+        curl_setopt_array($curl, [
+            CURLOPT_CUSTOMREQUEST => "PUT",
+            CURLOPT_POSTFIELDS => $dataJson,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 5,               
+            CURLOPT_CONNECTTIMEOUT => 3,       
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/json',
+                'Authorization: Bearer ' . $token,
+                'Content-Length: ' . strlen($dataJson)
+            ]
         ]);
 
-        $respuestapet = curl_exec($proceso);
-        $http_code = curl_getinfo($proceso, CURLINFO_HTTP_CODE);
+        curl_exec($curl);
 
-        if (curl_errno($proceso)) {
-            $error = curl_error($proceso);
-            curl_close($proceso);
+        if (curl_errno($curl)) {
+            $error = curl_error($curl);
+            curl_close($curl);
             return ["success" => false, "error" => $error];
         }
 
-        curl_close($proceso);
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
 
-        return ($http_code === 200 || $http_code === 201)
+        return ($httpCode === 200)
             ? ["success" => true]
-            : ["success" => false, "error" => "HTTP $http_code"];
+            : ["success" => false, "error" => "HTTP $httpCode"];
+    }
+    public function agregarProducto(array $producto): array
+{
+    $token = $this->obtenerToken();
+    if (!$token) {
+        return ["success" => false, "error" => "No hay sesión activa"];
     }
 
-    // PUT 
-    public function actualizarProducto($id, $producto)
-    {
-        $token = $this->obtenerToken();
-        if (!$token) return ["success" => false, "error" => "No hay sesión activa"];
+    $dataJson = json_encode($producto);
 
-        $data_json = json_encode($producto);
+    $curl = curl_init($this->apiUrl);
 
-        $proceso = curl_init($this->apiUrl . "/" . $id);
-        curl_setopt($proceso, CURLOPT_CUSTOMREQUEST, "PUT");
-        curl_setopt($proceso, CURLOPT_POSTFIELDS, $data_json);
-        curl_setopt($proceso, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($proceso, CURLOPT_HTTPHEADER, [
+    curl_setopt_array($curl, [
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $dataJson,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 5,               
+        CURLOPT_CONNECTTIMEOUT => 3,       
+        CURLOPT_HTTPHEADER => [
             'Content-Type: application/json',
             'Authorization: Bearer ' . $token,
-            'Content-Length: ' . strlen($data_json)
-        ]);
+            'Content-Length: ' . strlen($dataJson)
+        ]
+    ]);
 
-        $respuestapet = curl_exec($proceso);
-        $http_code = curl_getinfo($proceso, CURLINFO_HTTP_CODE);
+    $respuesta = curl_exec($curl);
 
-        curl_close($proceso);
-
-        return ($http_code === 200)
-            ? ["success" => true]
-            : ["success" => false, "error" => "HTTP $http_code"];
+    if (curl_errno($curl)) {
+        $error = curl_error($curl);
+        curl_close($curl);
+        return ["success" => false, "error" => $error];
     }
 
-    // DELETE 
-    public function eliminarProducto($id)
-    {
-        $token = $this->obtenerToken();
-        if (!$token) return ["success" => false, "error" => "No hay sesión activa"];
+    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
 
-        $proceso = curl_init($this->apiUrl . "/" . $id);
-        curl_setopt($proceso, CURLOPT_CUSTOMREQUEST, "DELETE");
-        curl_setopt($proceso, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($proceso, CURLOPT_HTTPHEADER, [
-            'Authorization: Bearer ' . $token
-        ]);
-
-        $respuestapet = curl_exec($proceso);
-        $http_code = curl_getinfo($proceso, CURLINFO_HTTP_CODE);
-
-        curl_close($proceso);
-
-        return ($http_code === 200)
-            ? ["success" => true]
-            : ["success" => false, "error" => "HTTP $http_code"];
+    if ($httpCode === 201 || $httpCode === 200) {
+        return ["success" => true];
     }
+
+    return ["success" => false, "error" => "HTTP $httpCode"];
+}
 }

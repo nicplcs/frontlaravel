@@ -7,9 +7,8 @@
     <link rel="stylesheet" href="{{ asset('css/styleproductos.css') }}">
 </head>
 <body>
-    <!-- BOTÓN VOLVER ARRIBA -->
     <div class="header-nav" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <a href="{{ route('productos.gestion') }}" class="back-button" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 500; transition: all 0.3s ease;">
+        <a href="{{ session('rol') == 'administrador' ? route('productos.gestion') : route('inicio.empleado') }}" class="back-button" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 500; transition: all 0.3s ease;">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 5px;">
                 <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L2.707 7.5H14.5A.5.5 0 0 1 15 8"/>
             </svg>
@@ -61,8 +60,23 @@
                                 <td>{{ $producto['stockActual'] ?? '' }}</td>
                                 <td>{{ $producto['stockMinimo'] ?? '' }}</td>
                                 <td>{{ $producto['stockMaximo'] ?? '' }}</td>
-                                <td>{{ $producto['idCategoria'] ?? '' }}</td>
-                                <td>{{ $producto['idProveedor'] ?? '' }}</td>
+
+                                {{-- CATEGORÍA: muestra nombre --}}
+                                <td>
+                                    @php
+                                        $cat = collect($categorias)->firstWhere('idCategoria', $producto['idCategoria'] ?? null);
+                                    @endphp
+                                    {{ $cat ? $cat['nombreCategoria'] : ($producto['idCategoria'] ?? '') }}
+                                </td>
+
+                                {{-- PROVEEDOR: muestra nombre --}}
+                                <td>
+                                    @php
+                                        $prov = collect($proveedores)->firstWhere('id', $producto['idProveedor'] ?? null);
+                                    @endphp
+                                    {{ $prov ? $prov['nombre'] : ($producto['idProveedor'] ?? '') }}
+                                </td>
+
                                 <td>
                                     @if($producto['estado'] == '1')
                                         <span style="background-color: rgba(40, 167, 69, 0.3); color: #90ee90; padding: 5px 12px; border-radius: 20px; font-weight: 600; font-size: 12px; border: 1px solid rgba(40, 167, 69, 0.5);">
@@ -89,60 +103,67 @@
             <p style="color:rgba(255, 255, 255, 0.7); text-align: center; padding: 20px;">No hay productos en el inventario.</p>
         @endif
 
-        <!-- MODAL EDITAR CON GLASSMORPHISM -->
+        <!-- MODAL EDITAR -->
         <div id="modalEditar" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 1000; align-items: center; justify-content: center;">
             <div style="background: rgba(102, 126, 234, 0.15); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); padding: 35px; border-radius: 20px; max-width: 550px; width: 90%; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);">
-                <h2 style="margin-bottom: 25px; font-size: 1.8rem; color: white; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); text-align: center;"> Editar Producto</h2>
+                <h2 style="margin-bottom: 25px; font-size: 1.8rem; color: white; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); text-align: center;">Editar Producto</h2>
                 <form method="POST" action="{{ route('productos.actualizar') }}" style="background: transparent; border: none; padding: 0; box-shadow: none;">
                     @csrf
                     <input type="hidden" name="id" id="edit_id">
 
-                    <label for="edit_nombre" style="color: white; font-weight: 600; margin-bottom: 8px; display: block; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">Nombre:</label>
-                    <input type="text" name="nombre" id="edit_nombre" required style="width: 100%; padding: 12px 15px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: white; font-size: 14px; margin-bottom: 18px;">
+                    <label for="edit_nombre" style="color: white; font-weight: 600; margin-bottom: 8px; display: block;">Nombre:</label>
+                    <input type="text" name="nombre" id="edit_nombre" required style="width: 100%; padding: 12px 15px; background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: white; font-size: 14px; margin-bottom: 18px;">
 
-                    <label for="edit_precio" style="color: white; font-weight: 600; margin-bottom: 8px; display: block; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">Precio:</label>
-                    <input type="number" name="precio" id="edit_precio" step="0.01" required style="width: 100%; padding: 12px 15px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: white; font-size: 14px; margin-bottom: 18px;">
+                    <label for="edit_precio" style="color: white; font-weight: 600; margin-bottom: 8px; display: block;">Precio:</label>
+                    <input type="number" name="precio" id="edit_precio" step="0.01" required style="width: 100%; padding: 12px 15px; background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: white; font-size: 14px; margin-bottom: 18px;">
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
                         <div>
-                            <label for="edit_stockMinimo" style="color: white; font-weight: 600; margin-bottom: 8px; display: block; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); font-size: 13px;">Stock Mín:</label>
-                            <input type="number" name="stockMinimo" id="edit_stockMinimo" required style="width: 100%; padding: 12px 10px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: white; font-size: 14px;">
+                            <label for="edit_stockMinimo" style="color: white; font-weight: 600; margin-bottom: 8px; display: block; font-size: 13px;">Stock Mín:</label>
+                            <input type="number" name="stockMinimo" id="edit_stockMinimo" required style="width: 100%; padding: 12px 10px; background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: white; font-size: 14px;">
                         </div>
-
                         <div>
-                            <label for="edit_stockMaximo" style="color: white; font-weight: 600; margin-bottom: 8px; display: block; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); font-size: 13px;">Stock Máx:</label>
-                            <input type="number" name="stockMaximo" id="edit_stockMaximo" required style="width: 100%; padding: 12px 10px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: white; font-size: 14px;">
+                            <label for="edit_stockMaximo" style="color: white; font-weight: 600; margin-bottom: 8px; display: block; font-size: 13px;">Stock Máx:</label>
+                            <input type="number" name="stockMaximo" id="edit_stockMaximo" required style="width: 100%; padding: 12px 10px; background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: white; font-size: 14px;">
                         </div>
-
                         <div>
-                            <label for="edit_stockActual" style="color: white; font-weight: 600; margin-bottom: 8px; display: block; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); font-size: 13px;">Stock Actual:</label>
-                            <input type="number" name="stockActual" id="edit_stockActual" required style="width: 100%; padding: 12px 10px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: white; font-size: 14px;">
+                            <label for="edit_stockActual" style="color: white; font-weight: 600; margin-bottom: 8px; display: block; font-size: 13px;">Stock Actual:</label>
+                            <input type="number" name="stockActual" id="edit_stockActual" required style="width: 100%; padding: 12px 10px; background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: white; font-size: 14px;">
                         </div>
                     </div>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 18px;">
                         <div>
-                            <label for="edit_idCategoria" style="color: white; font-weight: 600; margin-bottom: 8px; display: block; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">Categoría:</label>
-                            <input type="number" name="idCategoria" id="edit_idCategoria" required style="width: 100%; padding: 12px 15px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: white; font-size: 14px;">
+                            <label for="edit_idCategoria" style="color: white; font-weight: 600; margin-bottom: 8px; display: block;">Categoría:</label>
+                            <select name="idCategoria" id="edit_idCategoria" required style="width: 100%; padding: 12px 15px; background: rgba(50, 50, 80, 0.95); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: white; font-size: 14px;">
+                                <option value="">-- Selecciona --</option>
+                                @foreach($categorias as $categoria)
+                                    <option value="{{ $categoria['idCategoria'] }}">{{ $categoria['nombreCategoria'] }}</option>
+                                @endforeach
+                            </select>
                         </div>
-
                         <div>
-                            <label for="edit_idProveedor" style="color: white; font-weight: 600; margin-bottom: 8px; display: block; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">Proveedor:</label>
-                            <input type="number" name="idProveedor" id="edit_idProveedor" required style="width: 100%; padding: 12px 15px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: white; font-size: 14px;">
+                            <label for="edit_idProveedor" style="color: white; font-weight: 600; margin-bottom: 8px; display: block;">Proveedor:</label>
+                            <select name="idProveedor" id="edit_idProveedor" required style="width: 100%; padding: 12px 15px; background: rgba(50, 50, 80, 0.95); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: white; font-size: 14px;">
+                                <option value="">-- Selecciona --</option>
+                                @foreach($proveedores as $proveedor)
+                                    <option value="{{ $proveedor['id'] }}">{{ $proveedor['nombre'] }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
-                    <label for="edit_estado" style="color: white; font-weight: 600; margin-bottom: 8px; margin-top: 18px; display: block; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">Estado:</label>
-                    <select name="estado" id="edit_estado" style="width: 100%; padding: 12px 15px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: white; font-size: 14px; margin-bottom: 25px;">
-                        <option value="1" style="background: rgba(50, 50, 80, 0.95); color: white;">Activo</option>
-                        <option value="0" style="background: rgba(50, 50, 80, 0.95); color: white;">Inactivo</option>
+                    <label for="edit_estado" style="color: white; font-weight: 600; margin-bottom: 8px; margin-top: 18px; display: block;">Estado:</label>
+                    <select name="estado" id="edit_estado" style="width: 100%; padding: 12px 15px; background: rgba(50, 50, 80, 0.95); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; color: white; font-size: 14px; margin-bottom: 25px;">
+                        <option value="1">Activo</option>
+                        <option value="0">Inactivo</option>
                     </select>
 
                     <div style="display: flex; gap: 12px;">
-                        <button type="submit" style="flex: 1; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 14px; font-weight: 700; border: none; border-radius: 12px; cursor: pointer; font-size: 15px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);">
+                        <button type="submit" style="flex: 1; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 14px; font-weight: 700; border: none; border-radius: 12px; cursor: pointer; font-size: 15px;">
                             ✓ Actualizar
                         </button>
-                        <button type="button" onclick="cerrarModal()" style="flex: 1; background: rgba(108, 117, 125, 0.3); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); color: white; padding: 14px; font-weight: 600; border-radius: 12px; cursor: pointer; font-size: 15px; transition: all 0.3s ease;">
+                        <button type="button" onclick="cerrarModal()" style="flex: 1; background: rgba(108, 117, 125, 0.3); border: 1px solid rgba(255, 255, 255, 0.2); color: white; padding: 14px; font-weight: 600; border-radius: 12px; cursor: pointer; font-size: 15px;">
                             ✕ Cancelar
                         </button>
                     </div>
@@ -168,10 +189,13 @@
             document.getElementById('edit_stockMinimo').value = producto.stockMinimo;
             document.getElementById('edit_stockMaximo').value = producto.stockMaximo;
             document.getElementById('edit_stockActual').value = producto.stockActual;
+
+            // Seleccionar categoría correcta en el dropdown
             document.getElementById('edit_idCategoria').value = producto.idCategoria;
+            // Seleccionar proveedor correcto en el dropdown
             document.getElementById('edit_idProveedor').value = producto.idProveedor;
+
             document.getElementById('edit_estado').value = producto.estado;
-            
             document.getElementById('modalEditar').style.display = 'flex';
         }
 
@@ -186,40 +210,30 @@
             }
         }
 
-        // Cerrar modal al hacer clic fuera
         document.getElementById('modalEditar').addEventListener('click', function(e) {
-            if (e.target === this) {
-                cerrarModal();
-            }
+            if (e.target === this) cerrarModal();
         });
 
-        // Efectos hover para botones
         document.addEventListener('DOMContentLoaded', function() {
-            // Hover para botones Editar
             document.querySelectorAll('button[onclick*="editarProducto"]').forEach(btn => {
                 btn.addEventListener('mouseenter', function() {
                     this.style.background = 'rgba(255, 255, 255, 0.25)';
                     this.style.transform = 'translateY(-2px)';
-                    this.style.boxShadow = '0 4px 15px rgba(255, 255, 255, 0.2)';
                 });
                 btn.addEventListener('mouseleave', function() {
                     this.style.background = 'rgba(255, 255, 255, 0.15)';
                     this.style.transform = 'translateY(0)';
-                    this.style.boxShadow = 'none';
                 });
             });
 
-            // Hover para botones Desactivar
             document.querySelectorAll('button[onclick*="desactivarProducto"]').forEach(btn => {
                 btn.addEventListener('mouseenter', function() {
                     this.style.background = 'rgba(255, 255, 255, 0.25)';
                     this.style.transform = 'translateY(-2px)';
-                    this.style.boxShadow = '0 4px 15px rgba(255, 255, 255, 0.2)';
                 });
                 btn.addEventListener('mouseleave', function() {
                     this.style.background = 'rgba(255, 255, 255, 0.15)';
                     this.style.transform = 'translateY(0)';
-                    this.style.boxShadow = 'none';
                 });
             });
         });
