@@ -101,7 +101,15 @@
                         </svg>
                         Categoría:
                     </label>
-                    <input type="number" name="idCategoria" id="idCategoria" value="{{ old('idCategoria') }}" placeholder="ID de la categoría" required>
+                    <select name="idCategoria" id="idCategoria" required>
+                        <option value="">-- Selecciona una categoría --</option>
+                        @foreach($categorias as $categoria)
+                            <option value="{{ $categoria['idCategoria'] }}"
+                                {{ old('idCategoria') == $categoria['idCategoria'] ? 'selected' : '' }}>
+                                {{ $categoria['nombreCategoria'] }}
+                            </option>
+                        @endforeach
+                    </select>
 
                     <label for="idProveedor">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 5px;">
@@ -109,7 +117,15 @@
                         </svg>
                         Proveedor:
                     </label>
-                    <input type="number" name="idProveedor" id="idProveedor" value="{{ old('idProveedor') }}" placeholder="ID del proveedor" required>
+                    <select name="idProveedor" id="idProveedor" required>
+                        <option value="">-- Selecciona un proveedor --</option>
+                        @foreach($proveedores as $proveedor)
+                            <option value="{{ $proveedor['id'] }}"
+                                {{ old('idProveedor') == $proveedor['id'] ? 'selected' : '' }}>
+                                {{ $proveedor['nombre'] }}
+                            </option>
+                        @endforeach
+                    </select>
 
                     <label for="stockMaximo">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 5px;">
@@ -126,7 +142,7 @@
                     <path d="M8 7a.5.5 0 0 1 .5-.5H10V5a.5.5 0 0 1 1 0v1.5h1.5a.5.5 0 0 1 0 1H11V9a.5.5 0 0 1-1 0V7.5H8.5A.5.5 0 0 1 8 7"/>
                     <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
                 </svg>
-                Agregar Producto
+                AGREGAR PRODUCTO
             </button>
         </form>
 
@@ -157,8 +173,23 @@
                                 <td>{{ $producto["stockActual"] ?? '' }}</td>
                                 <td>{{ $producto["stockMinimo"] ?? '' }}</td>
                                 <td>{{ $producto["stockMaximo"] ?? '' }}</td>
-                                <td>{{ $producto["idCategoria"] ?? '' }}</td>
-                                <td>{{ $producto["idProveedor"] ?? '' }}</td>
+
+                                {{-- CATEGORÍA: muestra nombre en vez del ID --}}
+                                <td>
+                                    @php
+                                        $cat = collect($categorias)->firstWhere('idCategoria', $producto["idCategoria"] ?? null);
+                                    @endphp
+                                    {{ $cat ? $cat['nombreCategoria'] : ($producto["idCategoria"] ?? '') }}
+                                </td>
+
+                                {{-- PROVEEDOR: muestra nombre en vez del ID --}}
+                                <td>
+                                    @php
+                                        $prov = collect($proveedores)->firstWhere('id', $producto["idProveedor"] ?? null);
+                                    @endphp
+                                    {{ $prov ? $prov['nombre'] : ($producto["idProveedor"] ?? '') }}
+                                </td>
+
                                 <td>
                                     @if($producto["estado"] == "1")
                                         <span style="background-color: rgba(40, 167, 69, 0.3); color: #90ee90; padding: 5px 12px; border-radius: 20px; font-weight: 600; font-size: 12px; border: 1px solid rgba(40, 167, 69, 0.5);">

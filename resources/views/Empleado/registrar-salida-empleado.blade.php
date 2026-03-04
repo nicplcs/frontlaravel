@@ -3,10 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salida de Productos - Punto Éxito</title>
+    <title>Salida de Productos - Empleado</title>
     <link rel="stylesheet" href="{{ asset('css/styleproductos.css') }}">
 </head>
 <body>
+ 
+    <div class="header-nav" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <a href="{{ route('inicio.empleado') }}" class="back-button" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 500; transition: all 0.3s ease;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 5px;">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L2.707 7.5H14.5A.5.5 0 0 1 15 8"/>
+            </svg>
+            Volver al Dashboard
+        </a>
+    </div>
+
     <header>
         <h1>Salida de Productos</h1>
     </header>
@@ -37,7 +47,7 @@
 
         <h2>Registrar Salida (Venta)</h2>
 
-        <form method="POST" action="{{ route('productos.salida.registrar') }}">
+        <form method="POST" action="{{ route('empleado.productos.salida.registrar') }}">
             @csrf
             <label for="idProducto">Selecciona un producto:</label>
             <select name="idProducto" id="idProducto" required onchange="mostrarInfoProducto()">
@@ -79,7 +89,7 @@
                         <b>Stock Actual:</b> {{ htmlspecialchars($producto["stockActual"]) }} | 
                         <b>Stock Min:</b> {{ htmlspecialchars($producto["stockMinimo"]) }}
                         @if($producto['stockActual'] < $producto['stockMinimo'])
-                            <span style="color: #ff6b6b; font-weight: bold;">  STOCK BAJO</span>
+                            <span style="color: #ff6b6b; font-weight: bold;">  ⚠ STOCK BAJO</span>
                         @endif
                     </li>
                 @endforeach
@@ -87,10 +97,6 @@
         @else
             <p style="color:#999;">No hay productos activos disponibles.</p>
         @endif
-
-        <div class="volver">
-            <a href="{{ session('rol') == 'administrador' ? route('productos.gestion') : route('inicio.empleado') }}">Volver al módulo</a>
-        </div>
     </main>
 
     <footer>
