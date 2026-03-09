@@ -5,8 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salida de Productos - Punto Éxito</title>
     <link rel="stylesheet" href="{{ asset('css/styleproductos.css') }}">
+    <style>
+        .alert {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            border-radius: 14px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            font-size: 15px;
+            backdrop-filter: blur(15px);
+            animation: slideIn 0.3s ease;
+        }
+        .alert-success {
+            background: rgba(40, 167, 69, 0.2);
+            border: 1px solid rgba(40, 167, 69, 0.5);
+            color: #90ee90;
+        }
+        .alert-error {
+            background: rgba(220, 53, 69, 0.2);
+            border: 1px solid rgba(220, 53, 69, 0.5);
+            color: #ffb3ba;
+        }
+        .alert-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
+    <div class="header-nav" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <a href="{{ session('rol') == 'administrador' ? route('productos.gestion') : route('inicio.empleado') }}" class="back-button" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 500; transition: all 0.3s ease;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 5px;">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L2.707 7.5H14.5A.5.5 0 0 1 15 8"/>
+            </svg>
+            Volver al Módulo
+        </a>
+    </div>
+
     <header>
         <h1>Salida de Productos</h1>
     </header>
@@ -14,19 +55,22 @@
     <main>
         {{-- Mensajes de éxito o error --}}
         @if(session('success'))
-            <p style='color:green; background-color: #1b4d1b; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-weight: bold; border: 1px solid #2d7a2d;'>
-                {!! session('success') !!}
-            </p>
+            <div class="alert alert-success">
+                <span class="alert-icon">✓</span>
+                <span>{!! session('success') !!}</span>
+            </div>
         @endif
 
         @if(session('error'))
-            <p style='color:red; background-color: #4d1b1b; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-weight: bold; border: 1px solid #7a2d2d;'>
-                {{ session('error') }}
-            </p>
+            <div class="alert alert-error">
+                <span class="alert-icon">✕</span>
+                <span>{{ session('error') }}</span>
+            </div>
         @endif
 
         @if($errors->any())
-            <div style='color:red; background-color: #4d1b1b; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-weight: bold; border: 1px solid #7a2d2d;'>
+            <div class="alert alert-error">
+                <span class="alert-icon">⚠</span>
                 <ul style="margin: 0; padding-left: 20px;">
                     @foreach($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -55,7 +99,7 @@
                 @endif
             </select>
 
-            <div id="infoProducto" style="display: none; background-color: #2b2b3d; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #555;">
+            <div id="infoProducto" style="display: none; background: rgba(255,255,255,0.1); backdrop-filter: blur(15px); padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.2);">
                 <p><b>Producto:</b> <span id="infoNombre"></span></p>
                 <p><b>Precio:</b> $<span id="infoPrecio"></span></p>
                 <p><b>Stock Disponible:</b> <span id="infoStockActual"></span></p>
@@ -79,18 +123,14 @@
                         <b>Stock Actual:</b> {{ htmlspecialchars($producto["stockActual"]) }} | 
                         <b>Stock Min:</b> {{ htmlspecialchars($producto["stockMinimo"]) }}
                         @if($producto['stockActual'] < $producto['stockMinimo'])
-                            <span style="color: #ff6b6b; font-weight: bold;">  STOCK BAJO</span>
+                            <span style="color: #ff6b6b; font-weight: bold;"> ⚠ STOCK BAJO</span>
                         @endif
                     </li>
                 @endforeach
             </ul>
         @else
-            <p style="color:#999;">No hay productos activos disponibles.</p>
+            <p style="color:rgba(255,255,255,0.7);">No hay productos activos disponibles.</p>
         @endif
-
-        <div class="volver">
-            <a href="{{ session('rol') == 'administrador' ? route('productos.gestion') : route('inicio.empleado') }}">Volver al módulo</a>
-        </div>
     </main>
 
     <footer>
@@ -101,7 +141,6 @@
         function mostrarInfoProducto() {
             const select = document.getElementById('idProducto');
             const option = select.options[select.selectedIndex];
-            
             if (option.value) {
                 document.getElementById('infoNombre').textContent = option.dataset.nombre;
                 document.getElementById('infoPrecio').textContent = option.dataset.precio;
