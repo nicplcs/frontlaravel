@@ -5,11 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Productos - Punto Éxito</title>
     <link rel="stylesheet" href="{{ asset('css/styleproductos.css') }}">
+    <style>
+        .alert { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-radius: 14px; margin-bottom: 24px; font-weight: 500; font-size: 15px; backdrop-filter: blur(15px); animation: slideIn 0.3s ease; }
+        .alert-success { background: rgba(40, 167, 69, 0.2); border: 1px solid rgba(40, 167, 69, 0.5); color: #90ee90; }
+        .alert-error { background: rgba(220, 53, 69, 0.2); border: 1px solid rgba(220, 53, 69, 0.5); color: #ffb3ba; }
+        .alert-icon { font-size: 20px; flex-shrink: 0; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
 <body>
-    <!-- BOTÓN VOLVER ARRIBA -->
-    <div class="header-nav">
-        <a href="{{ route('productos.gestion') }}" class="back-button">
+    <div class="header-nav" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <a href="{{ session('rol') == 'administrador' ? route('productos.gestion') : route('inicio.empleado') }}" class="back-button" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 500; transition: all 0.3s ease;">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 5px;">
                 <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 0 1 .708.708L2.707 7.5H14.5A.5.5 0 0 1 15 8"/>
             </svg>
@@ -17,7 +23,6 @@
         </a>
     </div>
 
-    <!-- HEADER -->
     <header>
         <h1>
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 10px;">
@@ -28,24 +33,25 @@
     </header>
 
     <main>
-        <!-- FORMULARIO DE REGISTRO -->
         <h2>Agregar Producto</h2>
 
-        {{-- Mensajes de éxito o error --}}
         @if(session('success'))
-            <p style='color:green; background-color: rgba(40, 167, 69, 0.3); padding: 15px; border-radius: 12px; margin-bottom: 20px; font-weight: 500; border: 1px solid rgba(40, 167, 69, 0.5);'>
-                {{ session('success') }}
-            </p>
+            <div class="alert alert-success">
+                <span class="alert-icon">✓</span>
+                <span>{{ session('success') }}</span>
+            </div>
         @endif
 
         @if(session('error'))
-            <p style='color:red; background-color: rgba(220, 53, 69, 0.3); padding: 15px; border-radius: 12px; margin-bottom: 20px; font-weight: 500; border: 1px solid rgba(220, 53, 69, 0.5);'>
-                {{ session('error') }}
-            </p>
+            <div class="alert alert-error">
+                <span class="alert-icon">✕</span>
+                <span>{{ session('error') }}</span>
+            </div>
         @endif
 
         @if($errors->any())
-            <div style='color:red; background-color: rgba(220, 53, 69, 0.3); padding: 15px; border-radius: 12px; margin-bottom: 20px; font-weight: 500; border: 1px solid rgba(220, 53, 69, 0.5);'>
+            <div class="alert alert-error">
+                <span class="alert-icon">⚠</span>
                 <ul style="margin: 0; padding-left: 20px;">
                     @foreach($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -58,7 +64,6 @@
             @csrf
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0 30px;">
-                <!-- COLUMNA IZQUIERDA -->
                 <div>
                     <label for="nombre">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 5px;">
@@ -93,7 +98,6 @@
                     <input type="number" name="stockActual" id="stockActual" min="0" value="{{ old('stockActual') }}" placeholder="Cantidad actual en inventario" required>
                 </div>
 
-                <!-- COLUMNA DERECHA -->
                 <div>
                     <label for="idCategoria">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 5px;">
@@ -101,7 +105,15 @@
                         </svg>
                         Categoría:
                     </label>
-                    <input type="number" name="idCategoria" id="idCategoria" value="{{ old('idCategoria') }}" placeholder="ID de la categoría" required>
+                    <select name="idCategoria" id="idCategoria" required>
+                        <option value="">-- Selecciona una categoría --</option>
+                        @foreach($categorias as $categoria)
+                            <option value="{{ $categoria['idCategoria'] }}"
+                                {{ old('idCategoria') == $categoria['idCategoria'] ? 'selected' : '' }}>
+                                {{ $categoria['nombreCategoria'] }}
+                            </option>
+                        @endforeach
+                    </select>
 
                     <label for="idProveedor">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 5px;">
@@ -109,7 +121,15 @@
                         </svg>
                         Proveedor:
                     </label>
-                    <input type="number" name="idProveedor" id="idProveedor" value="{{ old('idProveedor') }}" placeholder="ID del proveedor" required>
+                    <select name="idProveedor" id="idProveedor" required>
+                        <option value="">-- Selecciona un proveedor --</option>
+                        @foreach($proveedores as $proveedor)
+                            <option value="{{ $proveedor['id'] }}"
+                                {{ old('idProveedor') == $proveedor['id'] ? 'selected' : '' }}>
+                                {{ $proveedor['nombre'] }}
+                            </option>
+                        @endforeach
+                    </select>
 
                     <label for="stockMaximo">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 5px;">
@@ -126,11 +146,10 @@
                     <path d="M8 7a.5.5 0 0 1 .5-.5H10V5a.5.5 0 0 1 1 0v1.5h1.5a.5.5 0 0 1 0 1H11V9a.5.5 0 0 1-1 0V7.5H8.5A.5.5 0 0 1 8 7"/>
                     <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
                 </svg>
-                Agregar Producto
+                AGREGAR PRODUCTO
             </button>
         </form>
 
-        <!-- LISTADO DE PRODUCTOS -->
         <h2>Listado de Productos</h2>
         @if(count($productos) > 0)
             <div style="overflow-x: auto;">
@@ -157,17 +176,23 @@
                                 <td>{{ $producto["stockActual"] ?? '' }}</td>
                                 <td>{{ $producto["stockMinimo"] ?? '' }}</td>
                                 <td>{{ $producto["stockMaximo"] ?? '' }}</td>
-                                <td>{{ $producto["idCategoria"] ?? '' }}</td>
-                                <td>{{ $producto["idProveedor"] ?? '' }}</td>
+                                <td>
+                                    @php
+                                        $cat = collect($categorias)->firstWhere('idCategoria', $producto["idCategoria"] ?? null);
+                                    @endphp
+                                    {{ $cat ? $cat['nombreCategoria'] : ($producto["idCategoria"] ?? '') }}
+                                </td>
+                                <td>
+                                    @php
+                                        $prov = collect($proveedores)->firstWhere('id', $producto["idProveedor"] ?? null);
+                                    @endphp
+                                    {{ $prov ? $prov['nombre'] : ($producto["idProveedor"] ?? '') }}
+                                </td>
                                 <td>
                                     @if($producto["estado"] == "1")
-                                        <span style="background-color: rgba(40, 167, 69, 0.3); color: #90ee90; padding: 5px 12px; border-radius: 20px; font-weight: 600; font-size: 12px; border: 1px solid rgba(40, 167, 69, 0.5);">
-                                            Activo
-                                        </span>
+                                        <span style="background-color: rgba(40, 167, 69, 0.3); color: #90ee90; padding: 5px 12px; border-radius: 20px; font-weight: 600; font-size: 12px; border: 1px solid rgba(40, 167, 69, 0.5);">Activo</span>
                                     @else
-                                        <span style="background-color: rgba(220, 53, 69, 0.3); color: #ffb3ba; padding: 5px 12px; border-radius: 20px; font-weight: 600; font-size: 12px; border: 1px solid rgba(220, 53, 69, 0.5);">
-                                            Inactivo
-                                        </span>
+                                        <span style="background-color: rgba(220, 53, 69, 0.3); color: #ffb3ba; padding: 5px 12px; border-radius: 20px; font-weight: 600; font-size: 12px; border: 1px solid rgba(220, 53, 69, 0.5);">Inactivo</span>
                                     @endif
                                 </td>
                             </tr>
@@ -176,9 +201,7 @@
                 </table>
             </div>
         @else
-            <p style="color:rgba(255, 255, 255, 0.7); text-align: center; padding: 20px;">
-                No hay productos registrados.
-            </p>
+            <p style="color:rgba(255, 255, 255, 0.7); text-align: center; padding: 20px;">No hay productos registrados.</p>
         @endif
     </main>
 

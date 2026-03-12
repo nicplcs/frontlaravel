@@ -18,7 +18,7 @@ class EntradaProductoController extends Controller
     {
         $todosProductos = $this->productoService->obtenerProductos();
         
-        // Filtrar solo productos activos
+  
         $productosActivos = array_filter($todosProductos, function($p) {
             return $p['estado'] == '1';
         });
@@ -56,13 +56,13 @@ class EntradaProductoController extends Controller
             return redirect()->back()->with('error', 'Producto no encontrado.');
         }
 
-        // Solo actualizar stockActual (eliminamos la línea de stock)
+        
         $nuevoStockActual = $productoActual['stockActual'] + $cantidadAgregar;
 
-        // Validar si excede el máximo
+        
         $advertencia = "";
         if ($nuevoStockActual > $productoActual['stockMaximo']) {
-            $advertencia = " ⚠️ ADVERTENCIA: La entrada excede el stock máximo permitido ({$productoActual['stockMaximo']}).";
+            $advertencia = "  ADVERTENCIA: La entrada excede el stock máximo permitido ({$productoActual['stockMaximo']}).";
         }
 
         $productoActual['stockActual'] = $nuevoStockActual;

@@ -143,7 +143,7 @@
                     @forelse($productosBajoStock as $producto)
                         <div class="list-item">
                             <span class="list-item-name">{{ $producto['nombre'] }}</span>
-                            <span class="list-item-value">{{ $producto['stock'] }} unidades</span>
+                            <span class="list-item-value">{{ $producto['stockActual'] ?? '' }} unidades</span>
                         </div>
                     @empty
                         <div class="list-item">

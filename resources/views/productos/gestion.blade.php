@@ -8,7 +8,6 @@
 </head>
 <body>
 
-
   <div class="volver">
     <a href="{{ route('inicio.administrador') }}">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
@@ -18,27 +17,15 @@
     </a>
   </div>
 
-  
   <video autoplay muted loop class="video-fondo">
     <source src="{{ asset('videos/cocacola.mp4') }}" type="video/mp4"> 
     Tu navegador no admite la etiqueta de video.
   </video>
   <div class="overlay"></div>
 
-
   <div class="header-logo">
     <img src="{{ asset('imagenes/logo.png') }}" alt="Logo Punto Éxito" />
   </div>
-
-
-  <a href="{{ route('login') }}" class="cerrar-sesion">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-      <path fill-rule="evenodd" d="M10 15a1 1 0 0 1-1 1H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h7a1 1 0 0 1 0 2H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h7a1 1 0 0 1 1 1z"/>
-      <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
-    </svg>
-    Cerrar sesión
-  </a>
-
 
   <header>
     <h1>
@@ -49,7 +36,6 @@
     </h1>
     <p>Sistema de información para automatización de productos</p>
   </header>
-
 
   <main>
     <div class="bienvenida-wrapper">

@@ -59,8 +59,8 @@
           </div>
 
           <div class="form-group">
-            <label for="idOrdenSalida">ID Orden Salida:</label>
-            <input type="number" id="idOrdenSalida" name="idOrdenSalida" min="1" placeholder="Ej: 1" required>
+            <label for="idMovimiento">ID Movimiento:</label>
+            <input type="number" id="idMovimiento" name="idMovimiento" min="1" placeholder="Ej: 1" required>
           </div>
         </div>
 
@@ -110,8 +110,8 @@
                 <span>{{ $devolucion['idProducto'] }}</span>
               </div>
               <div class="info-row">
-                <span class="info-label">ID Orden:</span>
-                <span>{{ $devolucion['idOrdenSalida'] }}</span>
+                <span class="info-label">ID Movimiento:</span>
+                <span>{{ $devolucion['idMovimiento'] }}</span>
               </div>
             </div>
 
@@ -151,7 +151,7 @@
       document.getElementById('fechaDevolucion').value = devolucion.fechaDevolucion;
       document.getElementById('cantidad').value = devolucion.cantidad;
       document.getElementById('idProducto').value = devolucion.idProducto;
-      document.getElementById('idOrdenSalida').value = devolucion.idOrdenSalida;
+      document.getElementById('idMovimiento').value = devolucion.idMovimiento;
       document.getElementById('motivo').value = devolucion.motivo;
 
       document.getElementById('btn-text').textContent = 'Actualizar Devolución';

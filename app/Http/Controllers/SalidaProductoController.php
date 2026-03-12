@@ -16,18 +16,24 @@ class SalidaProductoController extends Controller
 
     public function mostrarFormulario()
     {
-        $todosProductos = $this->productoService->obtenerProductos();
-        
-        // Filtrar solo productos activos
-        $productosActivos = array_filter($todosProductos, function($p) {
-            return $p['estado'] == '1';
-        });
+        $productos = $this->obtenerProductosActivos();
 
         return view('productos.salida-producto', [
-            'productos' => $productosActivos
+            'productos' => $productos
         ]);
     }
 
+   
+    public function mostrarFormularioEmpleado()
+    {
+        $productos = $this->obtenerProductosActivos();
+
+        return view('Empleado.registrar-salida-empleado', [
+            'productos' => $productos
+        ]);
+    }
+
+   
     public function registrarSalida(Request $request)
     {
         $request->validate([
@@ -39,8 +45,8 @@ class SalidaProductoController extends Controller
             'cantidadRetirar.min' => 'La cantidad debe ser al menos 1.'
         ]);
 
-        $idProducto = $request->input('idProducto');
-        $cantidadRetirar = $request->input('cantidadRetirar');
+        $idProducto = $request->idProducto;
+        $cantidad = $request->cantidadRetirar;
 
         $productos = $this->productoService->obtenerProductos();
         $productoActual = null;
@@ -53,33 +59,42 @@ class SalidaProductoController extends Controller
         }
 
         if (!$productoActual) {
-            return redirect()->back()->with('error', 'Producto no encontrado.');
+            return back()->with('error', 'Producto no encontrado.');
         }
 
-        // Validar stock suficiente
-        if ($productoActual['stockActual'] < $cantidadRetirar) {
-            return redirect()->back()
-                ->withInput()
-                ->with('error', "❌ Stock insuficiente. Disponible: {$productoActual['stockActual']}, Solicitado: {$cantidadRetirar}");
+        if ($productoActual['stockActual'] < $cantidad) {
+            return back()->withInput()->with(
+                'error',
+                " Stock insuficiente. Disponible: {$productoActual['stockActual']}"
+            );
         }
 
-        // Solo actualizar stockActual (eliminamos la línea de stock)
-        $nuevoStockActual = $productoActual['stockActual'] - $cantidadRetirar;
+        $nuevoStock = $productoActual['stockActual'] - $cantidad;
+        $productoActual['stockActual'] = $nuevoStock;
 
-        // Verificar si queda por debajo del mínimo
-        $advertencia = "";
-        if ($nuevoStockActual < $productoActual['stockMinimo']) {
-            $advertencia = " ⚠️ ADVERTENCIA: El stock está por debajo del mínimo requerido ({$productoActual['stockMinimo']}).";
+        $advertencia = '';
+        if ($nuevoStock < $productoActual['stockMinimo']) {
+            $advertencia = " Stock por debajo del mínimo ({$productoActual['stockMinimo']}).";
         }
-
-        $productoActual['stockActual'] = $nuevoStockActual;
 
         $resultado = $this->productoService->actualizarProducto($idProducto, $productoActual);
 
-        if ($resultado["success"]) {
-            return redirect()->back()->with('success', "✓ Salida registrada correctamente. Nuevo stock: {$nuevoStockActual}{$advertencia}");
-        } else {
-            return redirect()->back()->with('error', "Error: {$resultado['error']}");
+        if ($resultado['success']) {
+            return back()->with(
+                'success',
+                "✓ Salida registrada correctamente. Nuevo stock: {$nuevoStock}{$advertencia}"
+            );
         }
+
+        return back()->with('error', 'Error al registrar la salida.');
+    }
+
+  
+    private function obtenerProductosActivos()
+    {
+        return array_filter(
+            $this->productoService->obtenerProductos(),
+            fn($p) => isset($p['estado']) && $p['estado'] == '1'
+        );
     }
 }
