@@ -10,15 +10,14 @@
 
   <div class="container">
 
-    
     <a href="{{ route('modulo.usuarios') }}" class="btn-volver">
-      ← Volver al Modulo</a>
-    </div>
+      ← Volver al Modulo
+    </a>
 
     <h1 class="titulo">
-     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="icon" fill="white">
-  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-</svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="icon" fill="white">
+        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+      </svg>
       Gestión de Usuarios
     </h1>
 
@@ -38,7 +37,6 @@
     @php
       $editando = request()->has('editar');
       $usuarioEditar = null;
-      
       if ($editando) {
         $usuarioEditar = collect($usuarios)->firstWhere('id_usuario', request()->get('editar'));
       }
@@ -52,11 +50,10 @@
           Agregar Usuario
         @endif
       </h2>
-      
+
       <form action="{{ $editando && $usuarioEditar ? route('usuarios.update') : route('usuarios.store') }}" method="POST" class="formulario-usuario">
         @csrf
-        
-        {{-- Si estamos editando, agregar método PUT --}}
+
         @if($editando && $usuarioEditar)
           @method('PUT')
           <input type="hidden" name="id" value="{{ $usuarioEditar['id_usuario'] }}">
@@ -70,7 +67,7 @@
               </svg>
               Nombre:
             </label>
-            <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan Pérez" 
+            <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan Pérez"
                    value="{{ $usuarioEditar['nombre'] ?? old('nombre') }}" required>
           </div>
 
@@ -81,7 +78,7 @@
               </svg>
               Correo:
             </label>
-            <input type="email" id="correo" name="correo" placeholder="ejemplo@correo.com" 
+            <input type="email" id="correo" name="correo" placeholder="ejemplo@correo.com"
                    value="{{ $usuarioEditar['correo'] ?? old('correo') }}" required>
           </div>
         </div>
@@ -94,8 +91,8 @@
               </svg>
               Contraseña:
             </label>
-            <input type="password" id="contrasena" name="contrasena" 
-                   placeholder="{{ $editando && $usuarioEditar ? 'Dejar vacío para no cambiar' : 'Mínimo 6 caracteres' }}" 
+            <input type="password" id="contrasena" name="contrasena"
+                   placeholder="{{ $editando && $usuarioEditar ? 'Dejar vacío para no cambiar' : 'Mínimo 6 caracteres' }}"
                    {{ $editando && $usuarioEditar ? '' : 'required' }}>
           </div>
 
@@ -120,8 +117,8 @@
               </svg>
               Fecha Nacimiento:
             </label>
-           <input type="date" id="fecha_Nacimiento" name="fecha_Nacimiento"
-       value="{{ isset($usuarioEditar['fecha_Nacimiento']) ? \Carbon\Carbon::parse($usuarioEditar['fecha_Nacimiento'])->format('Y-m-d') : old('fecha_Nacimiento') }}">
+            <input type="date" id="fecha_Nacimiento" name="fecha_Nacimiento"
+                   value="{{ isset($usuarioEditar['fecha_Nacimiento']) ? \Carbon\Carbon::parse($usuarioEditar['fecha_Nacimiento'])->format('Y-m-d') : old('fecha_Nacimiento') }}">
           </div>
 
           <div class="form-group">
@@ -163,19 +160,18 @@
               Agregar Usuario
             @endif
           </button>
-          
+
           @if($editando && $usuarioEditar)
-            <a href="{{ route('usuarios.gestion') }}" class="btn-cancel">
-              Cancelar
-            </a>
+            <a href="{{ route('usuarios.gestion') }}" class="btn-cancel">Cancelar</a>
           @endif
         </div>
       </form>
     </div>
 
+    {{-- TABLA DE USUARIOS --}}
     <div class="tabla-section">
       <h2 class="subtitulo">Listado de Usuarios</h2>
-      
+
       <div class="tabla-container">
         <table class="tabla">
           <thead>
@@ -205,20 +201,28 @@
                   @endif
                 </td>
                 <td>{{ $usuario['rol'] }}</td>
-                <td>{{ $usuario['estado'] == '1' ? 'Activo' : 'Inactivo' }}</td>
+                <td>
+                  @if($usuario['estado'] == '1')
+                    <span class="badge-activo">Activo</span>
+                  @else
+                    <span class="badge-inactivo">Inactivo</span>
+                  @endif
+                </td>
                 <td class="acciones">
                   <a href="{{ route('usuarios.gestion') }}?editar={{ $usuario['id_usuario'] }}" class="btn-edit">
                     Editar
                   </a>
-                  
-                  <form action="{{ route('usuarios.destroy') }}" method="POST" style="display: inline;" 
-                        onsubmit="return confirm('¿Estás seguro de eliminar este usuario?')">
-                    @csrf
-                    <input type="hidden" name="id" value="{{ $usuario['id_usuario'] }}">
-                    <button type="submit" class="btn-delete">
-                    Eliminar
+
+                  {{-- Solo mostrar Desactivar si el usuario está activo --}}
+                  @if($usuario['estado'] == '1')
+                    <button
+                      onclick="mostrarModalDesactivar({{ $usuario['id_usuario'] }}, '{{ addslashes($usuario['nombre']) }}')"
+                      class="btn-delete">
+                      Desactivar
                     </button>
-                  </form>
+                  @else
+                    <span class="badge-inactivo" style="padding: 6px 12px; border-radius: 6px; font-size: 12px;">Inactivo</span>
+                  @endif
                 </td>
               </tr>
             @empty
@@ -232,6 +236,120 @@
     </div>
 
   </div>
+
+  {{-- ===================== MODAL DOBLE AUTENTICACIÓN ===================== --}}
+  <div id="modalDesactivar" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Confirmar Desactivación</h2>
+        <span class="close-modal" onclick="cerrarModalDesactivar()">&times;</span>
+      </div>
+
+      <div class="modal-body">
+        <p>Para desactivar al usuario <strong id="nombreUsuarioModal"></strong>, confirma tu contraseña:</p>
+
+        <div class="form-group">
+          <label for="modalUsuarioActual">Tu usuario:</label>
+          <input
+            type="text"
+            id="modalUsuarioActual"
+            class="input-modal"
+            value="{{ session('nombre') ?? 'Usuario' }}"
+            readonly>
+        </div>
+
+        <div class="form-group">
+          <label for="modalPassword">Contraseña:</label>
+          <input
+            type="password"
+            id="modalPassword"
+            class="input-modal"
+            placeholder="Ingresa tu contraseña">
+        </div>
+
+        <div id="modalErrorMessage" class="error-message" style="display: none;"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button onclick="cerrarModalDesactivar()" class="btn-cancelar">Cancelar</button>
+        <button onclick="confirmarDesactivacion()" class="btn-confirmar">Confirmar</button>
+      </div>
+    </div>
+  </div>
+  {{-- ================================================================== --}}
+
+  <script>
+    let usuarioADesactivar = null;
+
+    function mostrarModalDesactivar(idUsuario, nombreUsuario) {
+      usuarioADesactivar = idUsuario;
+      document.getElementById('nombreUsuarioModal').textContent = nombreUsuario;
+      document.getElementById('modalDesactivar').style.display = 'flex';
+      document.getElementById('modalPassword').value = '';
+      document.getElementById('modalErrorMessage').style.display = 'none';
+      setTimeout(() => document.getElementById('modalPassword').focus(), 100);
+    }
+
+    function cerrarModalDesactivar() {
+      document.getElementById('modalDesactivar').style.display = 'none';
+      usuarioADesactivar = null;
+    }
+
+    async function confirmarDesactivacion() {
+      const password  = document.getElementById('modalPassword').value;
+      const errorDiv  = document.getElementById('modalErrorMessage');
+
+      if (!password) {
+        errorDiv.textContent = 'Por favor ingresa tu contraseña';
+        errorDiv.style.display = 'block';
+        return;
+      }
+
+      try {
+        const formData = new FormData();
+        formData.append('password',     password);
+        formData.append('id_usuario',   usuarioADesactivar);
+        formData.append('_token',       '{{ csrf_token() }}');
+
+        const response = await fetch('{{ route("usuarios.validar.desactivar") }}', {
+          method: 'POST',
+          body: formData
+        });
+
+        const resultado = await response.json();
+
+        if (resultado.success) {
+          cerrarModalDesactivar();
+          alert(resultado.mensaje);
+          location.reload();
+        } else {
+          errorDiv.textContent = resultado.mensaje;
+          errorDiv.style.display = 'block';
+          document.getElementById('modalPassword').value = '';
+          document.getElementById('modalPassword').focus();
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        errorDiv.textContent = 'Error de conexión con el servidor';
+        errorDiv.style.display = 'block';
+      }
+    }
+
+    // Cerrar modal al hacer clic fuera
+    window.onclick = function(event) {
+      const modal = document.getElementById('modalDesactivar');
+      if (event.target === modal) {
+        cerrarModalDesactivar();
+      }
+    };
+
+    // Confirmar con Enter mientras el modal está abierto
+    document.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter' && document.getElementById('modalDesactivar').style.display === 'flex') {
+        confirmarDesactivacion();
+      }
+    });
+  </script>
 
 </body>
 </html>

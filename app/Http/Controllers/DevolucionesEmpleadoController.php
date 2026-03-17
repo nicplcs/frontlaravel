@@ -29,7 +29,7 @@ class DevolucionesEmpleadoController extends Controller
             'cantidad' => 'required|integer',
             'motivo' => 'required|string',
             'fechaDevolucion' => 'required|date',
-            'idOrdenSalida' => 'required|integer',
+            'idMovimiento' => 'required|integer',
             'idProducto' => 'required|integer'
         ]);
 
@@ -38,7 +38,7 @@ class DevolucionesEmpleadoController extends Controller
                 'cantidad' => (int)$request->cantidad,
                 'motivo' => $request->motivo,
                 'fechaDevolucion' => $request->fechaDevolucion,
-                'idOrdenSalida' => (int)$request->idOrdenSalida,
+                'idMovimiento' => (int)$request->idMovimiento,
                 'idProducto' => (int)$request->idProducto
             ]);
 

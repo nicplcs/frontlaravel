@@ -1,3 +1,4 @@
+/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -7,25 +8,23 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.5)), 
-              url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="sunset" cx="50%" cy="30%"><stop offset="0%" style="stop-color:%23667eea"/><stop offset="50%" style="stop-color:%23764ba2"/><stop offset="100%" style="stop-color:%234e54c8"/></radialGradient></defs><rect fill="url(%23sunset)" width="100%" height="100%"/></svg>');
+              linear-gradient(135deg, #667eea 0%, #764ba2 50%, #4e54c8 100%);
   background-size: cover;
   background-attachment: fixed;
   min-height: 100vh;
   padding: 20px;
+  color: white;
 }
 
+/* ── CONTENEDOR PRINCIPAL ─────────────────────────────────── */
 .container {
   max-width: 1400px;
   margin: 0 auto;
 }
 
-.volver-arriba {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 20px;
-}
-
+/* ── BOTÓN VOLVER ─────────────────────────────────────────── */
 .btn-volver {
+  display: inline-block;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -35,6 +34,7 @@ body {
   text-decoration: none;
   font-weight: 500;
   transition: all 0.3s ease;
+  margin-bottom: 30px;
 }
 
 .btn-volver:hover {
@@ -42,26 +42,25 @@ body {
   transform: translateY(-2px);
 }
 
+/* ── TÍTULO ───────────────────────────────────────────────── */
 .titulo {
-  text-align: center;
-  color: white;
   font-size: 2.5rem;
   font-weight: 700;
+  text-align: center;
   text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-  margin-bottom: 40px;
+  margin-bottom: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 15px;
+  gap: 12px;
 }
 
 .icon {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
 }
 
-
-
+/* ── ALERTAS ──────────────────────────────────────────────── */
 .alert-success {
   background: rgba(40, 167, 69, 0.3);
   backdrop-filter: blur(15px);
@@ -84,83 +83,83 @@ body {
   font-weight: 500;
 }
 
-/* FORMULARIO */
+/* ── FORMULARIO ───────────────────────────────────────────── */
 .formulario-container {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
   padding: 30px;
-  margin-bottom: 30px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  margin-bottom: 40px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  animation: fadeInUp 0.6s ease-out 0.2s both;
 }
 
 .subtitulo {
-  color: white;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 25px;
-  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(255,255,255,0.2);
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.4);
 }
 
 .formulario-usuario {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 0;
 }
 
 .form-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
+  margin-bottom: 20px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
 .form-group label {
-  color: white;
   font-weight: 600;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-  font-size: 0.9rem;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: rgba(255,255,255,0.9);
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-.form-group label svg {
-  filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.5));
+  gap: 6px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
 }
 
 .form-group input,
 .form-group select {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
   padding: 12px 15px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 10px;
   color: white;
   font-size: 14px;
   transition: all 0.3s ease;
+  font-family: inherit;
 }
 
 .form-group input::placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255,255,255,0.5);
 }
 
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+  background: rgba(255,255,255,0.25);
+  border-color: rgba(255,255,255,0.5);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.1);
 }
 
 .form-group select option {
-  background: rgba(50, 50, 50, 0.95);
+  background: rgba(50,50,80,0.95);
   color: white;
 }
 
@@ -171,214 +170,406 @@ body {
 }
 
 .btn-submit {
-  flex: 1;
-  padding: 14px 28px;
-  border: none;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
   background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  padding: 14px 30px;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102,126,234,0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .btn-submit:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+  box-shadow: 0 6px 20px rgba(102,126,234,0.6);
 }
 
 .btn-cancel {
-  padding: 14px 28px;
-  border: none;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  background: rgba(108, 117, 125, 0.5);
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.3);
   color: white;
+  padding: 14px 30px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
 }
 
 .btn-cancel:hover {
-  background: rgba(108, 117, 125, 0.7);
+  background: rgba(255,255,255,0.25);
   transform: translateY(-2px);
 }
 
-/* TABLA */
+/* ── TABLA ────────────────────────────────────────────────── */
 .tabla-section {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.6s ease-out 0.3s both;
 }
 
 .tabla-container {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  margin-top: 15px;
   overflow-x: auto;
-  max-height: 600px;
-  overflow-y: auto;
-  border-radius: 12px;
-  margin-top: 20px;
 }
 
 .tabla {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+  border-collapse: collapse;
 }
 
 .tabla thead {
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  background: rgba(255,255,255,0.15);
 }
 
-.tabla thead tr {
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(10px);
-}
-
-.tabla th {
+.tabla thead th {
+  padding: 16px 14px;
+  text-align: left;
   color: white;
   font-weight: 700;
-  text-align: left;
-  padding: 16px;
-  font-size: 0.9rem;
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 2px solid rgba(255,255,255,0.2);
 }
 
 .tabla tbody tr {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
   transition: all 0.3s ease;
 }
 
 .tabla tbody tr:hover {
-  background: rgba(255, 255, 255, 0.15);
-  transform: scale(1.01);
+  background: rgba(255,255,255,0.1);
 }
 
-.tabla td {
-  color: rgba(255, 255, 255, 0.9);
-  padding: 16px;
+.tabla tbody td {
+  padding: 14px;
   font-size: 14px;
+  color: rgba(255,255,255,0.95);
 }
 
+.no-data {
+  text-align: center;
+  color: rgba(255,255,255,0.6);
+  padding: 40px;
+  font-style: italic;
+}
+
+/* ── BADGES ESTADO ────────────────────────────────────────── */
+.badge-activo {
+  background: rgba(40, 167, 69, 0.3);
+  color: #90ee90;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 12px;
+  border: 1px solid rgba(40, 167, 69, 0.5);
+  display: inline-block;
+}
+
+.badge-inactivo {
+  background: rgba(220, 53, 69, 0.3);
+  color: #ffb3ba;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 12px;
+  border: 1px solid rgba(220, 53, 69, 0.5);
+  display: inline-block;
+}
+
+/* ── ACCIONES DE TABLA ────────────────────────────────────── */
 .acciones {
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  align-items: center;
   flex-wrap: wrap;
 }
 
+/* Botón Editar — translúcido */
 .btn-edit {
-  padding: 8px 16px;
-  background: linear-gradient(135deg, #ffc107, #ff9800);
-  color: #000;
-   text-decoration: none;
-  border: none;
-  border-radius: 8px;
-  font-weight: 700;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.9);
+  padding: 8px 18px;
+  border-radius: 10px;
+  font-weight: 600;
   font-size: 13px;
-  cursor: pointer;
+  text-decoration: none;
   transition: all 0.3s ease;
+  display: inline-block;
 }
 
 .btn-edit:hover {
+  background: rgba(255, 255, 255, 0.28);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.4);
-  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(255,255,255,0.15);
 }
 
+/* Botón Desactivar — translúcido con tinte rojo suave */
 .btn-delete {
-  padding: 8px 16px;
-  background: linear-gradient(135deg, #dc3545, #c82333);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 700;
+  background: rgba(220, 53, 69, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(220, 53, 69, 0.4);
+  color: #ffb3ba;
+  padding: 8px 18px;
+  border-radius: 10px;
+  font-weight: 600;
   font-size: 13px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .btn-delete:hover {
+  background: rgba(220, 53, 69, 0.35);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+  box-shadow: 0 4px 15px rgba(220,53,69,0.3);
 }
 
-.no-data {
-  text-align: center;
-  color: rgba(255, 255, 255, 0.7);
-  padding: 50px;
-  font-size: 1.1rem;
-  font-style: italic;
+/* ══════════════════════════════════════════════════════════
+   MODAL — GLASSMORPHISM (mismo estilo que movimientos)
+   ══════════════════════════════════════════════════════════ */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  /* overlay oscuro con blur como en movimientos */
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  /* centrar el contenido */
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
 }
 
-/* SCROLLBAR */
-.tabla-container::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* Cuando el modal está activo usamos flex (el JS lo pone a 'flex') */
+.modal[style*="flex"] {
+  display: flex !important;
 }
 
-.tabla-container::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Caja del modal — glassmorphism */
+.modal-content {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+  width: 90%;
+  max-width: 460px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-40px); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+/* Header del modal */
+.modal-header {
+  padding: 22px 26px;
+  background: rgba(220, 53, 69, 0.45);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: white;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+  border: none;
+  padding: 0;
+}
+
+.close-modal {
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  color: white;
+  transition: transform 0.2s;
+  line-height: 1;
+}
+
+.close-modal:hover {
+  transform: scale(1.2);
+}
+
+/* Body del modal */
+.modal-body {
+  padding: 26px;
+}
+
+.modal-body p {
+  margin-bottom: 22px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+}
+
+.modal-body strong {
+  color: white;
+}
+
+/* Grupos de formulario dentro del modal */
+.modal-body .form-group {
+  margin-bottom: 18px;
+}
+
+.modal-body .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  text-shadow: none;
+}
+
+/* Inputs del modal */
+.input-modal {
+  width: 100%;
+  padding: 12px 15px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 10px;
+  color: white;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  font-family: inherit;
 }
 
-.tabla-container::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
+.input-modal::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.input-modal:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+}
+
+.input-modal[readonly] {
+  background: rgba(255, 255, 255, 0.08);
+  cursor: not-allowed;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Mensaje de error dentro del modal */
+.error-message {
+  background: rgba(220, 53, 69, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(220, 53, 69, 0.5);
+  color: #ffb3ba;
+  padding: 12px 15px;
   border-radius: 10px;
+  margin-top: 12px;
+  font-size: 13px;
 }
 
-.tabla-container::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
+/* Footer del modal */
+.modal-footer {
+  padding: 20px 26px;
+  background: rgba(0, 0, 0, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
 }
 
-/* RESPONSIVE */
+/* Botón Cancelar — translúcido neutro */
+.btn-cancelar {
+  padding: 10px 24px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.85);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancelar:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+/* Botón Confirmar — rojo translúcido */
+.btn-confirmar {
+  padding: 10px 24px;
+  background: rgba(220, 53, 69, 0.55);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(220, 53, 69, 0.6);
+  color: white;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-confirmar:hover {
+  background: rgba(220, 53, 69, 0.75);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(220,53,69,0.4);
+}
+
+/* ── ANIMACIONES ──────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .titulo {
-    font-size: 1.8rem;
-  }
-
   .form-row {
     grid-template-columns: 1fr;
   }
 
-  .tabla-container {
-    max-height: 400px;
+  .titulo {
+    font-size: 1.8rem;
   }
 
-  .tabla th,
-  .tabla td {
-    padding: 12px 8px;
+  .tabla thead th,
+  .tabla tbody td {
+    padding: 10px 8px;
     font-size: 12px;
   }
 
   .acciones {
     flex-direction: column;
+    gap: 6px;
   }
-}
 
-.btn-cancel {
-  display: inline-block;
-  padding: 12px 24px;
-  background-color: #6c757d;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  border: none;
-  margin-left: 10px;
-}
-
-.btn-cancel:hover {
-  background-color: #5a62689f;
+  .modal-content {
+    width: 95%;
+  }
 }
