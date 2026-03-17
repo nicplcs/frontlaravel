@@ -152,6 +152,9 @@ Route::post('/productos/registrar', [RegistrarProductoController::class, 'regist
 Route::get('/interfaz-caleb', function () {
     return view('Interfaz-caleb.interfaz');
 })->name('interfaz.caleb');
+
+Route::get('/empleado/productos', [ProductoController::class, 'consultarEmpleado'])
+    ->name('empleado.productos.consultar');
     
     //inicio bloqueado
 Route::get('/inicio-bloqueado', function () {
