@@ -11,6 +11,10 @@ class DashboardEmpleadoController extends Controller
 
     public function index()
     {
+        if (!session('token')) {
+            return redirect()->route('login');
+        }
+
         try {
             // Obtener estadísticas para empleado
             $estadisticas = Http::get($this->apiUrl . '/dashboard/estadisticas-empleado')->json();

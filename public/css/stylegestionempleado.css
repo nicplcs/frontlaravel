@@ -138,11 +138,11 @@ body {
     margin-top: 8px;
 }
 
-.sidebar-user:hover .user-dropdown {
+.sidebar-user.open .user-dropdown {
     max-height: 100px;
 }
 
-.sidebar-user:hover .chevron {
+.sidebar-user.open .chevron {
     transform: rotate(180deg);
 }
 
