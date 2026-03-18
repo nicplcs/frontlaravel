@@ -95,7 +95,7 @@ Route::middleware(['nocache'])->group(function () {
 
     // Módulo Usuarios
     Route::get('/modulo-usuarios', function () {
-        return view('Modulo-usuarios.modulo-usuarios');
+        return view('Modulo-Usuarios.modulo-usuarios');
     })->name('modulo.usuarios');
 
     Route::get('/gestion-usuarios', [UsuariosController::class, 'index'])
