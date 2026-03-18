@@ -24,148 +24,25 @@ Route::get('/', function () {
     return redirect('/inicio-bloqueado');
 });
 
-    //Login
+// Login
 Route::get('/login', function () {
     return view('Login.login');
 })->name('login');
 
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 
+// Logout
 Route::get('/logout', function () {
     session()->flush();
     return redirect()->route('login')->with('success', 'Sesión cerrada correctamente');
 })->name('logout');
 
-//REGISTRO DE USUARIOS
+// Registro
 Route::get('/registro', function () {
     return view('Login.registro'); 
 })->name('registro');
 
-
-Route::get('/inicio-administrador', [DashboardAdministradorController::class, 'index'])
-    ->name('inicio.administrador');
-
-
-Route::get('/inicio-empleado', [DashboardEmpleadoController::class, 'index'])
-    ->name('inicio.empleado');
-
-    // Movimientos
-Route::get('/consultar-movimiento', [MovimientosController::class, 'consultarMovimientos'])
-    ->name('consultar.movimiento');
-
-Route::get('/modulo-movimiento', function () {
-    return view('Modulo-movimientos.modulo-movimiento');
-})->name('modulo.movimiento');
-
-Route::post('/movimientos/eliminar', [MovimientosController::class, 'eliminar'])
-    ->name('movimientos.eliminar');
-    
-Route::post('/validar-password-eliminar', [MovimientosController::class, 'validarPasswordEliminar'])
-    ->name('validar.password.eliminar');
-
-    // Devoluciones
-
-Route::get('/registrar-devolucion', [DevolucionesController::class, 'index'])
-    ->name('registrar.devolucion');
-
-Route::post('/devoluciones/crear', [DevolucionesController::class, 'store'])
-    ->name('devoluciones.store');
-
-Route::post('/devoluciones/actualizar', [DevolucionesController::class, 'update'])
-    ->name('devoluciones.update');
-
-Route::post('/devoluciones/eliminar', [DevolucionesController::class, 'destroy'])
-    ->name('devoluciones.destroy');
-    
-// MODULO USUARIOS
-Route::get('/modulo-usuarios', function () {
-    return view('Modulo-Usuarios.modulo-usuarios');
-})->name('modulo.usuarios');
-
-Route::get('/gestion-usuarios', [UsuariosController::class, 'index'])
-    ->name('usuarios.gestion');
-
-Route::post('/usuarios/crear', [UsuariosController::class, 'store'])
-    ->name('usuarios.store');
-
-Route::match(['post', 'put'], '/usuarios/actualizar', [UsuariosController::class, 'update'])
-    ->name('usuarios.update');
-    
-Route::post('/usuarios/eliminar', [UsuariosController::class, 'destroy'])
-    ->name('usuarios.destroy');
-
-    Route::post('/validar-password-desactivar', [UsuariosController::class, 'validarPasswordDesactivar'])
-    ->name('usuarios.validar.desactivar');
-
-    // PROVEEDORES
-Route::get('/gestion-proveedores', [ProveedoresController::class, 'index'])
-    ->name('proveedores.gestion');
-
-Route::post('/proveedores/crear', [ProveedoresController::class, 'store'])
-    ->name('proveedores.store');
-
-Route::post('/proveedores/actualizar', [ProveedoresController::class, 'update'])
-    ->name('proveedores.update');
-
-Route::post('/proveedores/eliminar', [ProveedoresController::class, 'destroy'])
-    ->name('proveedores.destroy');
-
-    Route::post('/validar-password-desactivar-proveedor', [ProveedoresController::class, 'validarPasswordDesactivar'])
-    ->name('proveedores.validar.desactivar');
-
-// PRODUCTOS
-
-Route::get('/productos/gestion', function () {
-    return view('productos.gestion');
-})->name('productos.gestion');
-
-Route::get('/productos/consultar', [ProductoController::class, 'consultar'])
-    ->name('productos.consultar');
-
-Route::post('/productos/actualizar', [ProductoController::class, 'actualizar'])
-    ->name('productos.actualizar');
-
-Route::post('/productos/desactivar', [ProductoController::class, 'desactivar'])
-    ->name('productos.desactivar');
-
-Route::get('/productos/entrada', [EntradaProductoController::class, 'mostrarFormulario'])
-    ->name('productos.entrada');
-
-Route::post('/productos/entrada', [EntradaProductoController::class, 'registrarEntrada'])
-    ->name('productos.entrada.registrar');
-
-
-Route::get('/productos/salida', [SalidaProductoController::class, 'mostrarFormulario'])
-    ->name('productos.salida');
-
-Route::post('/productos/salida', [SalidaProductoController::class, 'registrarSalida'])
-    ->name('productos.salida.registrar');
-
-
-Route::get('/productos/registrar', [RegistrarProductoController::class, 'mostrarFormulario'])
-    ->name('productos.registrar');
-
-Route::post('/productos/registrar', [RegistrarProductoController::class, 'registrarProducto'])
-    ->name('productos.registrar.guardar');
-
-
-Route::get('/interfaz-caleb', function () {
-    return view('Interfaz-caleb.interfaz');
-})->name('interfaz.caleb');
-
-Route::get('/empleado/productos', [ProductoController::class, 'consultarEmpleado'])
-    ->name('empleado.productos.consultar');
-    
-    //inicio bloqueado
-Route::get('/inicio-bloqueado', function () {
-    return view('inicio.inicio-bloqueado');
-})->name('inicio.bloqueado');
-
-// EMPLEADOS PROVEEDORES
-Route::get('/empleado/proveedores', [ProveedoresEmpleadoController::class, 'index'])
-    ->name('empleado.proveedores.consultar');
-
-    //reset password
+// Reset password
 Route::get('/forgot-password', function () {
     return view('Login.forgot-password');
 })->name('password.request');
@@ -174,10 +51,135 @@ Route::get('/reset-password', function () {
     return view('Login.reset-password');
 })->name('password.reset');
 
-// EMPLEADOS MOVIMIENTOS
-Route::get('/empleado/movimientos', [MovimientosEmpleadoController::class, 'consultarMovimientos'])
-    ->name('empleado.movimientos.consultar');
+// Inicio bloqueado
+Route::get('/inicio-bloqueado', function () {
+    return view('inicio.inicio-bloqueado');
+})->name('inicio.bloqueado');
 
-// EMPLEADOS DEVOLUCIONES
-Route::get('/empleado/devoluciones', [DevolucionesEmpleadoController::class, 'index'])
-    ->name('empleado.devoluciones.consultar');
+// RUTAS PROTEGIDAS - requieren sesión activa
+Route::middleware(['nocache'])->group(function () {
+
+    // Dashboards
+    Route::get('/inicio-administrador', [DashboardAdministradorController::class, 'index'])
+        ->name('inicio.administrador');
+
+    Route::get('/inicio-empleado', [DashboardEmpleadoController::class, 'index'])
+        ->name('inicio.empleado');
+
+    // Movimientos
+    Route::get('/consultar-movimiento', [MovimientosController::class, 'consultarMovimientos'])
+        ->name('consultar.movimiento');
+
+    Route::get('/modulo-movimiento', function () {
+        return view('Modulo-movimientos.modulo-movimiento');
+    })->name('modulo.movimiento');
+
+    Route::post('/movimientos/eliminar', [MovimientosController::class, 'eliminar'])
+        ->name('movimientos.eliminar');
+
+    Route::post('/validar-password-eliminar', [MovimientosController::class, 'validarPasswordEliminar'])
+        ->name('validar.password.eliminar');
+
+    // Devoluciones
+    Route::get('/registrar-devolucion', [DevolucionesController::class, 'index'])
+        ->name('registrar.devolucion');
+
+    Route::post('/devoluciones/crear', [DevolucionesController::class, 'store'])
+        ->name('devoluciones.store');
+
+    Route::post('/devoluciones/actualizar', [DevolucionesController::class, 'update'])
+        ->name('devoluciones.update');
+
+    Route::post('/devoluciones/eliminar', [DevolucionesController::class, 'destroy'])
+        ->name('devoluciones.destroy');
+
+    // Módulo Usuarios
+    Route::get('/modulo-usuarios', function () {
+        return view('Modulo-usuarios.modulo-usuarios');
+    })->name('modulo.usuarios');
+
+    Route::get('/gestion-usuarios', [UsuariosController::class, 'index'])
+        ->name('usuarios.gestion');
+
+    Route::post('/usuarios/crear', [UsuariosController::class, 'store'])
+        ->name('usuarios.store');
+
+    Route::match(['post', 'put'], '/usuarios/actualizar', [UsuariosController::class, 'update'])
+        ->name('usuarios.update');
+
+    Route::post('/usuarios/eliminar', [UsuariosController::class, 'destroy'])
+        ->name('usuarios.destroy');
+
+    Route::post('/validar-password-desactivar', [UsuariosController::class, 'validarPasswordDesactivar'])
+        ->name('usuarios.validar.desactivar');
+
+    // Proveedores
+    Route::get('/gestion-proveedores', [ProveedoresController::class, 'index'])
+        ->name('proveedores.gestion');
+
+    Route::post('/proveedores/crear', [ProveedoresController::class, 'store'])
+        ->name('proveedores.store');
+
+    Route::post('/proveedores/actualizar', [ProveedoresController::class, 'update'])
+        ->name('proveedores.update');
+
+    Route::post('/proveedores/eliminar', [ProveedoresController::class, 'destroy'])
+        ->name('proveedores.destroy');
+
+    Route::post('/validar-password-desactivar-proveedor', [ProveedoresController::class, 'validarPasswordDesactivar'])
+        ->name('proveedores.validar.desactivar');
+
+    // Productos
+    Route::get('/productos/gestion', function () {
+        return view('productos.gestion');
+    })->name('productos.gestion');
+
+    Route::get('/productos/consultar', [ProductoController::class, 'consultar'])
+        ->name('productos.consultar');
+
+    Route::post('/productos/actualizar', [ProductoController::class, 'actualizar'])
+        ->name('productos.actualizar');
+
+    Route::post('/productos/desactivar', [ProductoController::class, 'desactivar'])
+        ->name('productos.desactivar');
+
+    Route::get('/productos/entrada', [EntradaProductoController::class, 'mostrarFormulario'])
+        ->name('productos.entrada');
+
+    Route::post('/productos/entrada', [EntradaProductoController::class, 'registrarEntrada'])
+        ->name('productos.entrada.registrar');
+
+    Route::get('/productos/salida', [SalidaProductoController::class, 'mostrarFormulario'])
+        ->name('productos.salida');
+
+    Route::post('/productos/salida', [SalidaProductoController::class, 'registrarSalida'])
+        ->name('productos.salida.registrar');
+
+    Route::get('/productos/registrar', [RegistrarProductoController::class, 'mostrarFormulario'])
+        ->name('productos.registrar');
+
+    Route::post('/productos/registrar', [RegistrarProductoController::class, 'registrarProducto'])
+        ->name('productos.registrar.guardar');
+
+    // Interfaz Caleb
+    Route::get('/interfaz-caleb', function () {
+        return view('Interfaz-caleb.interfaz');
+    })->name('interfaz.caleb');
+
+    // Empleado - Productos
+    Route::get('/empleado/productos', [ProductoController::class, 'consultarEmpleado'])
+        ->name('empleado.productos.consultar');
+
+    // Empleado - Proveedores
+    Route::get('/empleado/proveedores', [ProveedoresEmpleadoController::class, 'index'])
+        ->name('empleado.proveedores.consultar');
+
+    // Empleado - Movimientos
+    Route::get('/empleado/movimientos', [MovimientosEmpleadoController::class, 'consultarMovimientos'])
+        ->name('empleado.movimientos.consultar');
+
+    // Empleado - Devoluciones
+    Route::get('/empleado/devoluciones', [DevolucionesEmpleadoController::class, 'index'])
+        ->name('empleado.devoluciones.consultar');
+
+});
