@@ -198,6 +198,13 @@
             overlay.classList.remove('active');
             toggle.classList.remove('visible-mobile-btn');
         });
+
+        const userToggle = document.querySelector('.user-toggle');
+        const sidebarUser = document.querySelector('.sidebar-user');
+
+        userToggle.addEventListener('click', () => {
+            sidebarUser.classList.toggle('open');
+        });
     </script>
 
 </body>
