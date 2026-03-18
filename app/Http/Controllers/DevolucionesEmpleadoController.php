@@ -42,13 +42,13 @@ class DevolucionesEmpleadoController extends Controller
                 'idProducto' => (int)$request->idProducto
             ]);
 
-            return redirect()->route('Empleado.registrar-devoluciones')
+            return redirect()->route('empleado.devoluciones.consultar')
                 ->with($response->successful() ? 'success' : 'error', 
                     $response->successful() ? 'Devolución registrada correctamente' : 'Error al registrar');
 
 
         } catch (\Exception $e) {
-            return redirect()->route('Empleado.registrar-devoluciones')
+            return redirect()->route('empleado.devoluciones.consultar')
                 ->with('error', 'Error: ' . $e->getMessage());
         }
     }

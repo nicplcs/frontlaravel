@@ -181,5 +181,7 @@ Route::middleware(['nocache'])->group(function () {
     // Empleado - Devoluciones
     Route::get('/empleado/devoluciones', [DevolucionesEmpleadoController::class, 'index'])
         ->name('empleado.devoluciones.consultar');
+    Route::post('/empleado/devoluciones/crear', [DevolucionesEmpleadoController::class, 'store'])
+    	->name('empleado.devoluciones.store');
 
 });
