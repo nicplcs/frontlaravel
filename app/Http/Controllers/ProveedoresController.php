@@ -24,7 +24,7 @@ class ProveedoresController extends Controller
             $error = "Error al conectar con la API: " . $e->getMessage();
         }
 
-        return view('Modulo-usuarios.gestion-proveedores', [
+        return view('Modulo-Usuarios.gestion-proveedores', [
             'proveedores' => $proveedores,
             'error'       => $error ?? null,
         ]);

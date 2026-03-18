@@ -24,7 +24,7 @@ class UsuariosController extends Controller
             $error    = "Error al conectar con la API: " . $e->getMessage();
         }
 
-        return view('Modulo-usuarios.gestion-usuarios', [
+        return view('Modulo-Usuarios.gestion-usuarios', [
             'usuarios' => $usuarios,
             'error'    => $error ?? null,
         ]);

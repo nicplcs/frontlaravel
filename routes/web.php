@@ -21,8 +21,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+    return redirect('/inicio-bloqueado');
+});
 
     //Login
 Route::get('/login', function () {
@@ -79,7 +79,7 @@ Route::post('/devoluciones/eliminar', [DevolucionesController::class, 'destroy']
     
 // MODULO USUARIOS
 Route::get('/modulo-usuarios', function () {
-    return view('Modulo-usuarios.modulo-usuarios');
+    return view('Modulo-Usuarios.modulo-usuarios');
 })->name('modulo.usuarios');
 
 Route::get('/gestion-usuarios', [UsuariosController::class, 'index'])

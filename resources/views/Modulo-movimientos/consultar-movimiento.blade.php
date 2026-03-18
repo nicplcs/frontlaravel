@@ -170,7 +170,7 @@
     });
 
     function descargarPDF(idMovimiento) {
-      const url = `http://localhost:8080/movimientos/${idMovimiento}/pdf`;
+      const url = `http://98.95.219.147:8080/movimientos/${idMovimiento}/pdf`;
       window.open(url, '_blank');
     }
     let movimientoAEliminar = null;
