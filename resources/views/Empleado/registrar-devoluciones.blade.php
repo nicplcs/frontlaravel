@@ -36,7 +36,7 @@
     <div class="glass-card">
       <h2 class="card-header" id="form-title">Registrar Nueva Devolución</h2>
       
-      <form id="form-devolucion" action="{{ route('devoluciones.store') }}" method="POST" class="formulario-devolucion">
+      <form id="form-devolucion" action="{{ route('empleado.devoluciones.store') }}" method="POST" class="formulario-devolucion">
         @csrf
         <input type="hidden" id="devolucion-id" name="id">
 
@@ -59,8 +59,8 @@
           </div>
 
           <div class="form-group">
-            <label for="idOrdenSalida">ID Orden Salida:</label>
-            <input type="number" id="idOrdenSalida" name="idOrdenSalida" min="1" placeholder="Ej: 1" required>
+            <label for="idMovimiento">ID Movimiento:</label>
+            <input type="number" id="idMovimiento" name="idMovimiento" min="1" placeholder="Ej: 1" required>
           </div>
         </div>
 
@@ -110,8 +110,8 @@
                 <span>{{ $devolucion['idProducto'] }}</span>
               </div>
               <div class="info-row">
-                <span class="info-label">ID Orden:</span>
-                <span>{{ $devolucion['idOrdenSalida'] }}</span>
+                <span class="info-label">ID Movimiento:</span>
+                <span>{{ $devolucion['idMovimiento'] }}</span>
               </div>
             </div>
           </div>

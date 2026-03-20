@@ -95,7 +95,7 @@ Route::middleware(['nocache'])->group(function () {
 
     // Módulo Usuarios
     Route::get('/modulo-usuarios', function () {
-        return view('Modulo-usuarios.modulo-usuarios');
+        return view('Modulo-Usuarios.modulo-usuarios');
     })->name('modulo.usuarios');
 
     Route::get('/gestion-usuarios', [UsuariosController::class, 'index'])
@@ -181,5 +181,7 @@ Route::middleware(['nocache'])->group(function () {
     // Empleado - Devoluciones
     Route::get('/empleado/devoluciones', [DevolucionesEmpleadoController::class, 'index'])
         ->name('empleado.devoluciones.consultar');
+    Route::post('/empleado/devoluciones/crear', [DevolucionesEmpleadoController::class, 'store'])
+    	->name('empleado.devoluciones.store');
 
 });
